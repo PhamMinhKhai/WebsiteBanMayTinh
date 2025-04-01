@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="script.js" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="index.html" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <title>TechHub - My Account</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+      }
+
+      .navbar {
+        background-color: #1a237e;
+        color: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo span {
+        color: #64b5f6;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links li {
+        position: relative;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 0.5rem 0;
+        position: relative;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #64b5f6;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #64b5f6;
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        min-width: 200px;
+        z-index: 1;
+        border-radius: 4px;
+        padding: 0.5rem 0;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 0.5rem 1rem;
+        display: block;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #e3f2fd;
+        color: #1a237e;
+      }
+
+      .dropdown-content a::after {
+        display: none;
+      }
+
+      .icons {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      .icon {
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: color 0.3s;
+        position: relative;
+      }
+
+      .icon:hover {
+        color: #64b5f6;
+      }
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #f44336;
+        color: white;
+        font-size: 0.7rem;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobile-toggle {
+        display: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+      }
+
+      .nav-active {
+        transform: translateX(0) !important;
+      }
+
+      /* Auth CTA Section Styles */
+      .auth-cta-section {
+        background-color: #f5f7ff;
+        padding: 4rem 0;
+        margin: 3rem 0;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .auth-cta-wrapper {
+        display: flex;
+        align-items: center;
+        max-width: 1100px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+
+      .auth-cta-image {
+        flex: 0 0 45%;
+      }
+
+      .auth-cta-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(74, 108, 247, 0.2);
+      }
+
+      .auth-cta-content {
+        flex: 0 0 55%;
+      }
+
+      .auth-cta-content h2 {
+        font-size: 2.2rem;
+        color: #1a237e;
+        margin-bottom: 1.2rem;
+        line-height: 1.3;
+      }
+
+      .auth-cta-content p {
+        color: #555;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .auth-cta-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.9rem 1.8rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn i {
+        margin-right: 8px;
+      }
+
+      .btn-primary {
+        background-color: #4a6cf7;
+        color: white;
+        border: 2px solid #4a6cf7;
+      }
+
+      .btn-primary:hover {
+        background-color: #3a5bd9;
+        border-color: #3a5bd9;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(74, 108, 247, 0.25);
+      }
+
+      .btn-outline {
+        background-color: transparent;
+        color: #4a6cf7;
+        border: 2px solid #4a6cf7;
+      }
+
+      .btn-outline:hover {
+        background-color: #f0f3ff;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(74, 108, 247, 0.15);
+      }
+
+      .auth-cta-benefits {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+      }
+
+      .benefit-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .benefit-item i {
+        font-size: 1.8rem;
+        color: #4a6cf7;
+        margin-bottom: 0.5rem;
+      }
+
+      .benefit-item span {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #444;
+      }
+
+      @media (max-width: 992px) {
+        .auth-cta-wrapper {
+          flex-direction: column;
+          padding: 0 2rem;
+        }
+
+        .auth-cta-image,
+        .auth-cta-content {
+          flex: 0 0 100%;
+        }
+
+        .auth-cta-content h2 {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .auth-cta-buttons {
+          flex-direction: column;
+        }
+
+        .auth-cta-benefits {
+          flex-wrap: wrap;
+          gap: 1.5rem;
+          justify-content: center;
+        }
+
+        .benefit-item {
+          width: 100%;
+          max-width: 120px;
+        }
+      }
+
+      /* Search Bar Styles */
+      .search-container {
+        position: relative;
+        margin-right: 10px;
+      }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+        padding: 6px 12px;
+        transition: all 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        background-color: white;
+      }
+
+      .search-input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        width: 0;
+        padding: 0;
+        transition: all 0.3s ease;
+      }
+
+      .search-bar:focus-within .search-input {
+        width: 200px;
+        padding: 0 8px;
+        color: #333;
+      }
+
+      .search-btn {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .search-bar:focus-within .search-btn {
+        color: #1a237e;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="logo">Tech<span>Hub</span></a>
+        <div class="mobile-toggle" id="mobile-toggle">☰</div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="computers.html">Computers ▾</a>
+            <div class="dropdown-content">
+              <a href="desktops.html">Desktop PCs</a>
+              <a href="laptops.html">Laptops</a>
+              <a href="gaming.html">Gaming PCs</a>
+              <a href="workstations.html">Workstations</a>
+              <a href="mini-pcs.html">Mini PCs</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="components.html">Components ▾</a>
+            <div class="dropdown-content">
+              <a href="processors.html">Processors</a>
+              <a href="motherboards.html">Motherboards</a>
+              <a href="graphics-cards.html">Graphics Cards</a>
+              <a href="memory.html">Memory (RAM)</a>
+              <a href="storage.html">Storage</a>
+              <a href="power-supplies.html">Power Supplies</a>
+              <a href="cooling.html">Cooling</a>
+              <a href="cases.html">Cases</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="peripherals.html">Peripherals ▾</a>
+            <div class="dropdown-content">
+              <a href="monitors.html">Monitors</a>
+              <a href="keyboards.html">Keyboards</a>
+              <a href="mice.html">Mice</a>
+              <a href="headsets.html">Headsets</a>
+              <a href="speakers.html">Speakers</a>
+            </div>
+          </li>
+          <li><a href="deals.html">Deals</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+
+        <!-- Icons for Search, Notifications, Account, and Cart -->
+        <div class="icons">
+          <div class="search-container">
+            <div class="search-bar">
+              <input
+                type="text"
+                class="search-input"
+                id="search-input"
+                placeholder="Search products..."
+                aria-label="Search"
+              />
+              <button class="search-btn" id="search-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </div>
+          <div class="icon notification-icon" id="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-count">2</span>
+          </div>
+          <div class="icon" id="account-icon"><i class="fas fa-user"></i></div>
+          <div class="icon" id="cart-icon">
+            <a href="cart.html" style="color: inherit; text-decoration: none">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">3</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notification-panel">
+      <div class="notification-header">
+        <h3>Thông báo</h3>
+        <button class="mark-all-read" id="mark-all-read">
+          Đánh dấu tất cả đã đọc
+        </button>
+      </div>
+      <div class="notification-list" id="notification-list">
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Khuyến mãi đặc biệt</h4>
+            <p>Giảm giá 15% cho tất cả laptop trong tuần này!</p>
+            <span class="notification-time">2 giờ trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Sản phẩm đã về kho</h4>
+            <p>RTX 4080 đã có hàng trở lại. Nhanh tay đặt ngay!</p>
+            <span class="notification-time">1 ngày trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item">
+          <div class="notification-content">
+            <h4>Đơn hàng #12345 đã giao</h4>
+            <p>Đơn hàng của bạn đã được giao thành công.</p>
+            <span class="notification-time">3 ngày trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+      </div>
+      <div class="notification-settings">
+        <a href="notification-settings.html">Cài đặt thông báo</a>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="container">
+      <h1 class="page-title">My Account</h1>
+
+      <div class="account-wrapper">
+        <div class="account-sidebar">
+          <div class="user-info">
+            <div class="user-avatar">👤</div>
+            <div class="user-name">John Doe</div>
+            <div class="user-email">john.doe@example.com</div>
+          </div>
+
+          <ul class="sidebar-menu">
+            <li>
+              <a href="#" class="active" data-tab="dashboard">
+                <span class="sidebar-icon">📊</span>
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="#" data-tab="orders">
+                <span class="sidebar-icon">📦</span>
+                Orders
+              </a>
+            </li>
+            <li>
+              <a href="#" data-tab="wishlist">
+                <span class="sidebar-icon">❤️</span>
+                Wishlist
+              </a>
+            </li>
+            <li>
+              <a href="#" data-tab="addresses">
+                <span class="sidebar-icon">📍</span>
+                Addresses
+              </a>
+            </li>
+            <li>
+              <a href="#" data-tab="profile">
+                <span class="sidebar-icon">👤</span>
+                Profile Details
+              </a>
+            </li>
+            <li>
+              <a href="#" data-tab="security">
+                <span class="sidebar-icon">🔒</span>
+                Security
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="account-content">
+          <!-- Dashboard Tab -->
+          <div class="tab-content active" id="dashboard">
+            <h2 class="section-title">Dashboard</h2>
+
+            <div class="account-cards">
+              <div class="account-card">
+                <div class="card-title">
+                  <span>📦</span>
+                  Total Orders
+                </div>
+                <div class="card-value">8</div>
+              </div>
+
+              <div class="account-card">
+                <div class="card-title">
+                  <span>⭐</span>
+                  Reward Points
+                </div>
+                <div class="card-value">560</div>
+              </div>
+
+              <div class="account-card">
+                <div class="card-title">
+                  <span>💰</span>
+                  Store Credit
+                </div>
+                <div class="card-value">$25.00</div>
+              </div>
+            </div>
+
+            <h3 class="section-title">Recent Orders</h3>
+
+            <table class="order-list">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#TH80945</td>
+                  <td>Feb 18, 2025</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$1,289.99</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80832</td>
+                  <td>Feb 02, 2025</td>
+                  <td>
+                    <span class="status-badge status-shipped">Shipped</span>
+                  </td>
+                  <td>$359.95</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80721</td>
+                  <td>Jan 15, 2025</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$599.99</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style="text-align: right; margin-top: 1rem">
+              <a href="#" class="btn btn-primary" data-tab-trigger="orders"
+                >View All Orders</a
+              >
+            </div>
+          </div>
+
+          <!-- Orders Tab -->
+          <div class="tab-content" id="orders">
+            <h2 class="section-title">My Orders</h2>
+
+            <table class="order-list">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#TH80945</td>
+                  <td>Feb 18, 2025</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$1,289.99</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80832</td>
+                  <td>Feb 02, 2025</td>
+                  <td>
+                    <span class="status-badge status-shipped">Shipped</span>
+                  </td>
+                  <td>$359.95</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80721</td>
+                  <td>Jan 15, 2025</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$599.99</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80645</td>
+                  <td>Jan 05, 2025</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$149.99</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80532</td>
+                  <td>Dec 18, 2024</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$849.95</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80491</td>
+                  <td>Dec 05, 2024</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$129.99</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80387</td>
+                  <td>Nov 23, 2024</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$219.95</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+                <tr>
+                  <td>#TH80256</td>
+                  <td>Nov 10, 2024</td>
+                  <td>
+                    <span class="status-badge status-completed">Completed</span>
+                  </td>
+                  <td>$1,859.99</td>
+                  <td><a href="#" class="btn btn-secondary">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Wishlist Tab -->
+          <div class="tab-content" id="wishlist">
+            <h2 class="section-title">My Wishlist</h2>
+
+            <div class="wishlist-items">
+              <div class="wishlist-item">
+                <div class="wishlist-img">RTX 4080 Graphics Card</div>
+                <div class="wishlist-info">
+                  <div class="wishlist-title">NVIDIA GeForce RTX 4080 16GB</div>
+                  <div class="wishlist-price">$999.99</div>
+                  <div class="wishlist-actions">
+                    <a href="#" class="btn btn-secondary">View</a>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wishlist-item">
+                <div class="wishlist-img">Ryzen 9 7950X CPU</div>
+                <div class="wishlist-info">
+                  <div class="wishlist-title">AMD Ryzen 9 7950X</div>
+                  <div class="wishlist-price">$549.99</div>
+                  <div class="wishlist-actions">
+                    <a href="#" class="btn btn-secondary">View</a>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wishlist-item">
+                <div class="wishlist-img">ASUS ROG Swift Monitor</div>
+                <div class="wishlist-info">
+                  <div class="wishlist-title">ASUS ROG Swift PG279QM</div>
+                  <div class="wishlist-price">$799.99</div>
+                  <div class="wishlist-actions">
+                    <a href="#" class="btn btn-secondary">View</a>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wishlist-item">
+                <div class="wishlist-img">Corsair K95 Keyboard</div>
+                <div class="wishlist-info">
+                  <div class="wishlist-title">Corsair K95 RGB Platinum XT</div>
+                  <div class="wishlist-price">$199.99</div>
+                  <div class="wishlist-actions">
+                    <a href="#" class="btn btn-secondary">View</a>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Addresses Tab -->
+          <div class="tab-content" id="addresses">
+            <h2 class="section-title">My Addresses</h2>
+
+            <div class="address-item">
+              <div class="address-badge">Default</div>
+              <div class="address-name">John Doe</div>
+              <div class="address-details">
+                123 Main St, Apt 4B<br />
+                New York, NY 10001<br />
+                United States
+              </div>
+              <div class="address-actions">
+                <a href="#" class="btn btn-secondary">Edit</a>
+                <a href="#" class="btn btn-secondary">Delete</a>
+              </div>
+            </div>
+
+            <div class="address-item">
+              <div class="address-name">Jane Doe</div>
+              <div class="address-details">
+                456 Elm St, Suite 12<br />
+                Los Angeles, CA 90001<br />
+                United States
+              </div>
+              <div class="address-actions">
+                <a href="#" class="btn btn-secondary">Edit</a>
+                <a href="#" class="btn btn-secondary">Delete</a>
+              </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 1rem">
+              <a href="#" class="btn btn-primary">Add New Address</a>
+            </div>
+          </div>
+
+          <!-- Profile Tab -->
+          <div class="tab-content" id="profile">
+            <h2 class="section-title">Profile Details</h2>
+
+            <form>
+              <div class="form-row">
+                <div class="form-col">
+                  <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input
+                      type="text"
+                      id="first-name"
+                      class="form-control"
+                      value="John"
+                    />
+                  </div>
+                </div>
+                <div class="form-col">
+                  <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input
+                      type="text"
+                      id="last-name"
+                      class="form-control"
+                      value="Doe"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  value="john.doe@example.com"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  class="form-control"
+                  value="+1 (555) 123-4567"
+                />
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-cancel">Cancel</button>
+                <button type="submit" class="btn btn-save">Save Changes</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Security Tab -->
+          <div class="tab-content" id="security">
+            <h2 class="section-title">Security</h2>
+
+            <form>
+              <div class="form-group">
+                <label for="current-password">Current Password</label>
+                <input
+                  type="password"
+                  id="current-password"
+                  class="form-control"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="confirm-password">Confirm New Password</label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  class="form-control"
+                />
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-cancel">Cancel</button>
+                <button type="submit" class="btn btn-save">
+                  Change Password
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login/Register Button Section -->
+    <div class="auth-cta-section">
+      <div class="container">
+        <div class="auth-cta-wrapper">
+          <div class="auth-cta-image">
+            <img
+              src="https://via.placeholder.com/500x350/4a6cf7/ffffff?text=Join+TechHub"
+              alt="Join TechHub"
+            />
+          </div>
+          <div class="auth-cta-content">
+            <h2>Ready to enhance your tech shopping experience?</h2>
+            <p>
+              Create an account to unlock personalized recommendations, track
+              orders in real-time, save your favorite products, and get
+              exclusive access to member-only deals.
+            </p>
+            <div class="auth-cta-buttons">
+              <a href="loginRegister.html#login" class="btn btn-primary"
+                ><i class="fas fa-sign-in-alt"></i> Login</a
+              >
+              <a href="loginRegister.html#register" class="btn btn-outline"
+                ><i class="fas fa-user-plus"></i> Create Account</a
+              >
+            </div>
+            <div class="auth-cta-benefits">
+              <div class="benefit-item">
+                <i class="fas fa-truck"></i>
+                <span>Priority Shipping</span>
+              </div>
+              <div class="benefit-item">
+                <i class="fas fa-tag"></i>
+                <span>Member Discounts</span>
+              </div>
+              <div class="benefit-item">
+                <i class="fas fa-history"></i>
+                <span>Order History</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Footer Top Section with Columns -->
+        <div class="footer-top">
+          <!-- Company Info Column -->
+          <div class="footer-column">
+            <div class="footer-logo">
+              <a href="index.html">Tech<span>Hub</span></a>
+            </div>
+            <p class="footer-description">
+              Your one-stop destination for premium computer hardware,
+              components, and tech accessories.
+            </p>
+            <div class="footer-social">
+              <a href="#" class="social-icon"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-icon"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+            </div>
+          </div>
+
+          <!-- Quick Links Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="faq.html">FAQs</a></li>
+              <li><a href="shipping.html">Shipping Info</a></li>
+              <li><a href="returns.html">Returns Policy</a></li>
+            </ul>
+          </div>
+
+          <!-- Products Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Products</h3>
+            <ul class="footer-links">
+              <li><a href="computers.html">Computers</a></li>
+              <li><a href="components.html">Components</a></li>
+              <li><a href="peripherals.html">Peripherals</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="deals.html">Special Deals</a></li>
+              <li><a href="new-arrivals.html">New Arrivals</a></li>
+            </ul>
+          </div>
+
+          <!-- My Account Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">My Account</h3>
+            <ul class="footer-links">
+              <li><a href="login.html">Login / Register</a></li>
+              <li><a href="my-account.html">My Profile</a></li>
+              <li><a href="orders.html">Order History</a></li>
+              <li><a href="wishlist.html">Wishlist</a></li>
+              <li><a href="track-order.html">Track Order</a></li>
+              <li><a href="support-tickets.html">Support Tickets</a></li>
+            </ul>
+          </div>
+
+          <!-- Newsletter Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Newsletter</h3>
+            <p class="footer-newsletter-text">
+              Subscribe to receive updates, access to exclusive deals, and more.
+            </p>
+            <form class="footer-newsletter-form">
+              <input
+                type="email"
+                class="newsletter-input"
+                placeholder="Enter your email"
+                aria-label="Email for newsletter"
+              />
+              <button type="submit" class="newsletter-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+            <p class="footer-newsletter-terms">
+              By subscribing you agree to our
+              <a href="terms.html">Terms & Conditions</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer Middle - Payment Methods -->
+        <div class="footer-middle">
+          <div class="payment-methods">
+            <h3 class="payment-title">Payment Methods</h3>
+            <div class="payment-icons">
+              <i class="fab fa-cc-visa"></i>
+              <i class="fab fa-cc-mastercard"></i>
+              <i class="fab fa-cc-amex"></i>
+              <i class="fab fa-cc-discover"></i>
+              <i class="fab fa-cc-paypal"></i>
+              <i class="fab fa-apple-pay"></i>
+              <i class="fab fa-google-pay"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom - Copyright -->
+        <div class="footer-bottom">
+          <div class="copyright">&copy; 2025 TechHub. All Rights Reserved.</div>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="sitemap.html">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="script.js"></script>
+  </body>
+</html>

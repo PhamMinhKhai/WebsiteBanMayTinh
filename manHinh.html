@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monitors - TechHub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Additional styles for monitors page */
+      .product-container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .filter-sidebar {
+        width: 25%;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .filter-section {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 15px;
+      }
+
+      .filter-section:last-child {
+        border-bottom: none;
+      }
+
+      .filter-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .filter-content {
+        margin-top: 10px;
+      }
+
+      .filter-option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .filter-option input {
+        margin-right: 8px;
+      }
+
+      .filter-option label {
+        font-size: 14px;
+        color: #4b5563;
+      }
+
+      .price-range {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .price-input {
+        width: 80px;
+        padding: 5px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+      }
+
+      .products-grid {
+        width: 75%;
+      }
+
+      .products-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .products-count {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .sort-filter {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sort-select {
+        padding: 8px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      .view-options {
+        display: flex;
+        gap: 5px;
+      }
+
+      .view-option {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background-color: white;
+        cursor: pointer;
+      }
+
+      .view-option.active {
+        background-color: #f3f4f6;
+        color: #2563eb;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .filter-mobile-toggle {
+        display: none;
+        font-weight: 600;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        background-color: #f3f4f6;
+        border-radius: 6px;
+        width: 100%;
+        text-align: left;
+        border: 1px solid #d1d5db;
+      }
+
+      .filter-mobile-toggle i {
+        float: right;
+        margin-top: 3px;
+      }
+
+      .active-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .filter-tag {
+        background-color: #e5e7eb;
+        border-radius: 16px;
+        padding: 5px 10px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      .filter-tag i {
+        margin-left: 5px;
+        cursor: pointer;
+      }
+
+      .clear-all {
+        font-size: 12px;
+        color: #4b5563;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .product-container {
+          flex-direction: column;
+        }
+
+        .filter-sidebar {
+          width: 100%;
+          margin-bottom: 20px;
+          display: none;
+        }
+
+        .products-grid {
+          width: 100%;
+        }
+
+        .product-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .filter-mobile-toggle {
+          display: block;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .products-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .sort-filter {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+      /* Enhanced Pagination Styles */
+      .pagination-container {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pagination a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 36px;
+        height: 36px;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        color: #4b5563;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-weight: 500;
+      }
+
+      .pagination a:hover {
+        background-color: #e5e7eb;
+      }
+
+      .pagination a.active {
+        background-color: #2563eb;
+        color: white;
+      }
+
+      .pagination a.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .pagination-arrow {
+        padding: 0 12px;
+      }
+
+      .pagination-dots {
+        margin: 0 5px;
+        color: #6b7280;
+      }
+
+      .pagination-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #6b7280;
+        font-size: 14px;
+      }
+
+      .items-per-page {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .items-per-page select {
+        padding: 6px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      @media (max-width: 768px) {
+        .pagination-info {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="logo">Tech<span>Hub</span></a>
+        <div class="mobile-toggle" id="mobile-toggle">☰</div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="computers.html">Computers ▾</a>
+            <div class="dropdown-content">
+              <a href="desktops.html">Desktop PCs</a>
+              <a href="laptops.html">Laptops</a>
+              <a href="gaming.html">Gaming PCs</a>
+              <a href="workstations.html">Workstations</a>
+              <a href="mini-pcs.html">Mini PCs</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="components.html">Components ▾</a>
+            <div class="dropdown-content">
+              <a href="processors.html">Processors</a>
+              <a href="motherboards.html">Motherboards</a>
+              <a href="graphics-cards.html">Graphics Cards</a>
+              <a href="memory.html">Memory (RAM)</a>
+              <a href="storage.html">Storage</a>
+              <a href="power-supplies.html">Power Supplies</a>
+              <a href="cooling.html">Cooling</a>
+              <a href="cases.html">Cases</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="peripherals.html" class="active">Peripherals ▾</a>
+            <div class="dropdown-content">
+              <a href="monitors.html" class="active">Monitors</a>
+              <a href="keyboards.html">Keyboards</a>
+              <a href="mice.html">Mice</a>
+              <a href="headsets.html">Headsets</a>
+              <a href="speakers.html">Speakers</a>
+            </div>
+          </li>
+          <li><a href="deals.html">Deals</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+
+        <!-- Icons for Search, Notifications, Account, and Cart -->
+        <div class="icons">
+          <div class="search-container">
+            <div class="search-bar">
+              <input
+                type="text"
+                class="search-input"
+                id="search-input"
+                placeholder="Search products..."
+                aria-label="Search"
+              />
+              <button class="search-btn" id="search-btn">🔍</button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </div>
+          <div class="icon notification-icon" id="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-count">2</span>
+          </div>
+          <div class="icon" id="account-icon"><i class="fas fa-user"></i></div>
+          <div class="icon" id="cart-icon">
+            <a href="cart.html" style="color: inherit; text-decoration: none">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">3</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container">
+        <h1>Monitors</h1>
+        <nav class="breadcrumb">
+          <a href="index.html">Home</a> /
+          <a href="peripherals.html">Peripherals</a> /
+          <span>Monitors</span>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+      <!-- Mobile filter toggle -->
+      <button class="filter-mobile-toggle" id="filter-toggle">
+        Filters <i class="fas fa-filter"></i>
+      </button>
+
+      <div class="product-container">
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar" id="filter-sidebar">
+          <h2>Filters</h2>
+
+          <!-- Active Filters -->
+          <div class="active-filters">
+            <div class="filter-tag">ASUS <i class="fas fa-times"></i></div>
+            <div class="filter-tag">
+              $200 - $500 <i class="fas fa-times"></i>
+            </div>
+            <div class="filter-tag">4K <i class="fas fa-times"></i></div>
+            <span class="clear-all">Clear All</span>
+          </div>
+
+          <!-- Price Filter -->
+          <div class="filter-section">
+            <div class="filter-title">
+              Price Range <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="filter-content">
+              <div class="price-range">
+                <input
+                  type="number"
+                  class="price-input"
+                  placeholder="Min"
+                  min="0"
+                  value="200"
+                />
+                <span>to</span>
+                <input
+                  type="number"
+                  class="price-input"
+                  placeholder="Max"
+                  min="0"
+                  value="500"
+                />
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="price-1" checked />
+                <label for="price-1">$0 - $199</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="price-2" checked />
+                <label for="price-2">$200 - $499</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="price-3" />
+                <label for="price-3">$500 - $999</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="price-4" />
+                <label for="price-4">$1000+</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="filter-section">
+            <div class="filter-title">
+              Brand <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="filter-content">
+              <div class="filter-option">
+                <input type="checkbox" id="brand-1" checked />
+                <label for="brand-1">ASUS (24)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-2" />
+                <label for="brand-2">Dell (18)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-3" />
+                <label for="brand-3">LG (16)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-4" />
+                <label for="brand-4">Samsung (15)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-5" />
+                <label for="brand-5">Acer (12)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-6" />
+                <label for="brand-6">BenQ (10)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-7" />
+                <label for="brand-7">MSI (8)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-8" />
+                <label for="brand-8">HP (7)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-9" />
+                <label for="brand-9">Apple (5)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="brand-10" />
+                <label for="brand-10">Gigabyte (5)</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resolution Filter -->
+          <div class="filter-section">
+            <div class="filter-title">
+              Resolution <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="filter-content">
+              <div class="filter-option">
+                <input type="checkbox" id="res-1" />
+                <label for="res-1">Full HD (1080p)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="res-2" />
+                <label for="res-2">2K (1440p)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="res-3" checked />
+                <label for="res-3">4K (2160p)</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="res-4" />
+                <label for="res-4">5K</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="res-5" />
+                <label for="res-5">8K</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel Type Filter -->
+          <div class="filter-section">
+            <div class="filter-title">
+              Panel Type <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="filter-content">
+              <div class="filter-option">
+                <input type="checkbox" id="panel-1" />
+                <label for="panel-1">IPS</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="panel-2" />
+                <label for="panel-2">VA</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="panel-3" />
+                <label for="panel-3">TN</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="panel-4" />
+                <label for="panel-4">OLED</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="panel-5" />
+                <label for="panel-5">Mini-LED</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Refresh Rate Filter -->
+          <div class="filter-section">
+            <div class="filter-title">
+              Refresh Rate <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="filter-content">
+              <div class="filter-option">
+                <input type="checkbox" id="refresh-1" />
+                <label for="refresh-1">60Hz</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="refresh-2" />
+                <label for="refresh-2">75Hz</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="refresh-3" />
+                <label for="refresh-3">120Hz</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="refresh-4" />
+                <label for="refresh-4">144Hz</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="refresh-5" />
+                <label for="refresh-5">165Hz</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="refresh-6" />
+                <label for="refresh-6">240Hz</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="refresh-7" />
+                <label for="refresh-7">360Hz+</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen Size Filter -->
+          <div class="filter-section">
+            <div class="filter-title">
+              Screen Size <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="filter-content">
+              <div class="filter-option">
+                <input type="checkbox" id="size-1" />
+                <label for="size-1">20" - 24"</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="size-2" />
+                <label for="size-2">25" - 27"</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="size-3" />
+                <label for="size-3">28" - 32"</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="size-4" />
+                <label for="size-4">34" - 38"</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="size-5" />
+                <label for="size-5">40"+ </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Usage Type Filter -->
+          <div class="filter-section">
+            <div class="filter-title">
+              Usage Type <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="filter-content">
+              <div class="filter-option">
+                <input type="checkbox" id="usage-1" />
+                <label for="usage-1">Gaming</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="usage-2" />
+                <label for="usage-2">Office/Productivity</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="usage-3" />
+                <label for="usage-3">Graphic Design</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="usage-4" />
+                <label for="usage-4">Video Editing</label>
+              </div>
+              <div class="filter-option">
+                <input type="checkbox" id="usage-5" />
+                <label for="usage-5">Home Entertainment</label>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+          <div class="products-header">
+            <div class="products-count">Showing 1-12 of 120 products</div>
+            <div class="sort-filter">
+              <select class="sort-select" aria-label="Sort products">
+                <option>Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Rating: High to Low</option>
+                <option>Newest First</option>
+              </select>
+              <div class="view-options">
+                <button class="view-option active" title="Grid View">
+                  <i class="fas fa-th"></i>
+                </button>
+                <button class="view-option" title="List View">
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+              <div class="product-badge">Best Seller</div>
+              <div class="product-image">
+                <img
+                  src="/api/placeholder/240/180"
+                  alt="ASUS ROG Swift PG27UQ"
+                />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Gaming Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS ROG Swift PG27UQ 27" 4K 144Hz</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span class="rating-count">(86)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$699.99</span>
+                  <span class="old-price">$799.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+              <div class="product-badge sale-badge">Sale -10%</div>
+              <div class="product-image">
+                <img
+                  src="/api/placeholder/240/180"
+                  alt="ASUS TUF Gaming VG289Q"
+                />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Gaming Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS TUF Gaming VG289Q 28" 4K 60Hz</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <span class="rating-count">(64)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$299.99</span>
+                  <span class="old-price">$329.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+              <div class="product-badge new-badge">New</div>
+              <div class="product-image">
+                <img src="/api/placeholder/240/180" alt="ASUS ProArt PA279CV" />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Professional Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS ProArt PA279CV 27" 4K USB-C</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <span class="rating-count">(28)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$449.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+              <div class="product-badge">Best Seller</div>
+              <div class="product-image">
+                <img src="/api/placeholder/240/180" alt="ASUS VZ249HE" />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Office Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS VZ249HE 23.8" Full HD IPS</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <span class="rating-count">(120)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$129.99</span>
+                  <span class="old-price">$149.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+              <div class="product-badge sale-badge">Sale -15%</div>
+              <div class="product-image">
+                <img
+                  src="/api/placeholder/240/180"
+                  alt="ASUS ROG Strix XG43UQ"
+                />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Gaming Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS ROG Strix XG43UQ 43" 4K 144Hz</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span class="rating-count">(38)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$849.99</span>
+                  <span class="old-price">$999.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card">
+              <div class="product-badge new-badge">New</div>
+              <div class="product-image">
+                <img src="/api/placeholder/240/180" alt="ASUS Designo MX27UC" />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Design Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS Designo MX27UC 27" 4K USB-C</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <span class="rating-count">(42)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$479.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card">
+              <div class="product-badge">Premium</div>
+              <div class="product-image">
+                <img
+                  src="/api/placeholder/240/180"
+                  alt="ASUS Eye Care VA27EHE"
+                />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Office Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS Eye Care VA27EHE 27" Full HD</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <span class="rating-count">(76)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$169.99</span>
+                  <span class="old-price">$189.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="product-card">
+              <div class="product-badge sale-badge">Sale -20%</div>
+              <div class="product-image">
+                <img
+                  src="/api/placeholder/240/180"
+                  alt="ASUS TUF Gaming VG27AQ"
+                />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Gaming Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS TUF Gaming VG27AQ 27" 1440p 165Hz</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span class="rating-count">(92)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$319.99</span>
+                  <span class="old-price">$399.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="product-card">
+              <div class="product-badge">Best Value</div>
+              <div class="product-image">
+                <img src="/api/placeholder/240/180" alt="ASUS VP28UQG" />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Gaming Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS VP28UQG 28" 4K 60Hz Gaming</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <span class="rating-count">(58)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$249.99</span>
+                  <span class="old-price">$279.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 11 -->
+            <div class="product-card">
+              <div class="product-badge top-badge">Editor's Choice</div>
+              <div class="product-image">
+                <img
+                  src="/api/placeholder/240/180"
+                  alt="ASUS ROG Swift PG32UQ"
+                />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Gaming Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS ROG Swift PG32UQ 32" 4K 144Hz</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <span class="rating-count">(32)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$799.99</span>
+                  <span class="old-price">$899.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Product 12 -->
+            <div class="product-card">
+              <div class="product-badge new-badge">New</div>
+              <div class="product-image">
+                <img
+                  src="/api/placeholder/240/180"
+                  alt="ASUS ProArt Display PA247CV"
+                />
+                <div class="product-actions">
+                  <button class="quick-view" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="add-to-wishlist" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button class="add-to-compare" title="Compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-category">Professional Monitors</div>
+                <h3 class="product-name">
+                  <a href="product-details.html"
+                    >ASUS ProArt Display PA247CV 24" Full HD</a
+                  >
+                </h3>
+                <div class="product-ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span class="rating-count">(47)</span>
+                </div>
+                <div class="product-price">
+                  <span class="current-price">$219.99</span>
+                </div>
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <nav class="pagination-container" aria-label="Product pagination">
+            <div class="pagination">
+              <a
+                href="#"
+                class="pagination-arrow disabled"
+                aria-label="Previous page"
+                title="Previous page"
+              >
+                <i class="fas fa-chevron-left"></i>
+              </a>
+              <a href="#" class="active" aria-current="page">1</a>
+              <a href="#" aria-label="Page 2">2</a>
+              <a href="#" aria-label="Page 3">3</a>
+              <span class="pagination-dots">...</span>
+              <a href="#" aria-label="Page 10">10</a>
+              <a
+                href="#"
+                class="pagination-arrow"
+                aria-label="Next page"
+                title="Next page"
+              >
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </div>
+            <div class="pagination-info">
+              <span>Showing page 1 of 10</span>
+              <div class="items-per-page">
+                <label for="items-per-page">Items per page:</label>
+                <select
+                  id="items-per-page"
+                  aria-label="Number of items per page"
+                >
+                  <option value="12" selected>12</option>
+                  <option value="24">24</option>
+                  <option value="36">36</option>
+                  <option value="48">48</option>
+                </select>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </main>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+      // Mobile navigation toggle
+      const mobileToggle = document.getElementById("mobile-toggle");
+      const navLinks = document.getElementById("nav-links");
+      const mobileOverlay = document.getElementById("mobile-menu-overlay");
+
+      mobileToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+        mobileOverlay.classList.toggle("active");
+      });
+
+      mobileOverlay.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        mobileOverlay.classList.remove("active");
+      });
+
+      // Filter sidebar toggle for mobile
+      const filterToggle = document.getElementById("filter-toggle");
+      const filterSidebar = document.getElementById("filter-sidebar");
+
+      filterToggle.addEventListener("click", () => {
+        filterSidebar.style.display =
+          filterSidebar.style.display === "block" ? "none" : "block";
+        filterToggle.innerHTML =
+          filterSidebar.style.display === "block"
+            ? 'Hide Filters <i class="fas fa-times"></i>'
+            : 'Filters <i class="fas fa-filter"></i>';
+      });
+
+      // Filter sections toggle
+      const filterTitles = document.querySelectorAll(".filter-title");
+
+      filterTitles.forEach((title) => {
+        title.addEventListener("click", () => {
+          const content = title.nextElementSibling;
+          content.style.display =
+            content.style.display === "none" ? "block" : "none";
+
+          const icon = title.querySelector("i");
+          icon.className =
+            content.style.display === "none"
+              ? "fas fa-chevron-down"
+              : "fas fa-chevron-up";
+        });
+      });
+
+      // View options toggle
+      const viewOptions = document.querySelectorAll(".view-option");
+      const productGrid = document.querySelector(".product-grid");
+
+      viewOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          viewOptions.forEach((opt) => opt.classList.remove("active"));
+          option.classList.add("active");
+
+          if (option.querySelector("i").classList.contains("fa-list")) {
+            productGrid.classList.add("list-view");
+          } else {
+            productGrid.classList.remove("list-view");
+          }
+        });
+      });
+
+      // Back to top button
+      const backToTopButton = document.getElementById("back-to-top");
+
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          backToTopButton.style.display = "block";
+        } else {
+          backToTopButton.style.display = "none";
+        }
+      });
+
+      backToTopButton.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+    </script>
+  </body>
+</html>

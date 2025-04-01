@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechHub - Computers & Components</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="logo">Tech<span>Hub</span></a>
+        <div class="mobile-toggle" id="mobile-toggle">☰</div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="computers.html">Computers ▾</a>
+            <div class="dropdown-content">
+              <a href="manHinh.html">Desktop PCs</a>
+              <a href="laptops.html">Laptops</a>
+              <a href="gaming.html">Gaming PCs</a>
+              <a href="workstations.html">Workstations</a>
+              <a href="mini-pcs.html">Mini PCs</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="components.html">Components ▾</a>
+            <div class="dropdown-content">
+              <a href="processors.html">Processors</a>
+              <a href="motherboards.html">Motherboards</a>
+              <a href="graphics-cards.html">Graphics Cards</a>
+              <a href="memory.html">Memory (RAM)</a>
+              <a href="storage.html">Storage</a>
+              <a href="power-supplies.html">Power Supplies</a>
+              <a href="cooling.html">Cooling</a>
+              <a href="cases.html">Cases</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="peripherals.html">Peripherals ▾</a>
+            <div class="dropdown-content">
+              <a href="manHinh.html">Monitors</a>
+              <a href="keyboards.html">Keyboards</a>
+              <a href="mice.html">Mice</a>
+              <a href="headsets.html">Headsets</a>
+              <a href="speakers.html">Speakers</a>
+            </div>
+          </li>
+          <li><a href="deals.html">Deals</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+
+        <!-- Icons for Search, Notifications, Account, and Cart -->
+        <div class="icons">
+          <div class="search-container">
+            <div class="search-bar">
+              <input
+                type="text"
+                class="search-input"
+                id="search-input"
+                placeholder="Search products..."
+                aria-label="Search"
+              />
+              <button class="search-btn" id="search-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </div>
+          <div class="icon notification-icon" id="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-count">2</span>
+          </div>
+          <div class="icon" id="account-icon"><i class="fas fa-user"></i></div>
+          <div class="icon" id="cart-icon">
+            <a href="cart.html" style="color: inherit; text-decoration: none">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">3</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Overlay for Modal or Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notification-panel">
+      <div class="notification-header">
+        <h3>Thông báo</h3>
+        <button class="mark-all-read" id="mark-all-read">
+          Đánh dấu tất cả đã đọc
+        </button>
+      </div>
+      <div class="notification-list" id="notification-list">
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Khuyến mãi đặc biệt</h4>
+            <p>Giảm giá 15% cho tất cả laptop trong tuần này!</p>
+            <span class="notification-time">2 giờ trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Sản phẩm đã về kho</h4>
+            <p>RTX 4080 đã có hàng trở lại. Nhanh tay đặt ngay!</p>
+            <span class="notification-time">1 ngày trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item">
+          <div class="notification-content">
+            <h4>Đơn hàng #12345 đã giao</h4>
+            <p>Đơn hàng của bạn đã được giao thành công.</p>
+            <span class="notification-time">3 ngày trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+      </div>
+      <div class="notification-settings">
+        <a href="notification-settings.html">Cài đặt thông báo</a>
+      </div>
+    </div>
+
+    <!-- Carousel Section -->
+    <div class="carousel-container">
+      <div class="carousel-wrapper">
+        <div class="carousel-slides">
+          <div class="carousel-slide active">
+            <div class="carousel-content">
+              <div class="carousel-text">
+                <h2>Next-Gen Gaming PCs</h2>
+                <p>
+                  Unleash the power of RTX 4080. Game at maximum settings with
+                  zero compromise.
+                </p>
+                <a href="#" class="carousel-btn">Shop Now</a>
+              </div>
+              <div class="carousel-image">
+                <img src="/img/815b3+qj0wL._AC_SL1500_.jpg" alt="Gaming PC" />
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="carousel-content">
+              <div class="carousel-text">
+                <h2>Premium Laptops</h2>
+                <p>
+                  Lightweight, powerful, and portable. Perfect for work and
+                  play.
+                </p>
+                <a href="#" class="carousel-btn">Explore</a>
+              </div>
+              <div class="carousel-image">
+                <img
+                  src="/img/81E3tQNSq7L._AC_SL1500_.jpg"
+                  alt="Premium Laptops"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="carousel-content">
+              <div class="carousel-text">
+                <h2>Spring Sale</h2>
+                <p>
+                  Save up to 30% on selected components and peripherals. Limited
+                  time offer!
+                </p>
+                <a href="#" class="carousel-btn">View Deals</a>
+              </div>
+              <div class="carousel-image">
+                <img src="/img/81hp6vpk35L._AC_SL1500_.jpg" alt="Spring Sale" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-btn-prev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="carousel-indicators">
+            <span class="carousel-indicator active"></span>
+            <span class="carousel-indicator"></span>
+            <span class="carousel-indicator"></span>
+          </div>
+          <button class="carousel-btn-next">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Best-Selling Products Section -->
+    <section class="bestsellers-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Best-Selling Products</h2>
+          <a href="bestsellers.html" class="view-all"
+            >View All <i class="fas fa-arrow-right"></i
+          ></a>
+        </div>
+
+        <div class="product-grid">
+          <!-- Product Card 1 -->
+          <div class="product-card">
+            <div class="product-badge">Best Seller</div>
+            <div class="product-image">
+              <img
+                src="/img/81E3tQNSq7L._AC_SL1500_.jpg"
+                alt="RTX 4070 Graphics Card"
+              />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Graphics Cards</div>
+              <h3 class="product-name">
+                <a href="/detailProduct.html">NVIDIA RTX 4070 12GB GDDR6X</a>
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="rating-count">(128)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$599.99</span>
+                <span class="old-price">$649.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 2 -->
+          <div class="product-card">
+            <div class="product-badge">Best Seller</div>
+            <div class="product-image">
+              <img
+                src="/img/81hp6vpk35L._AC_SL1500_.jpg"
+                alt="AMD Ryzen 7 7800X3D"
+              />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Processors</div>
+              <h3 class="product-name">
+                <a href="/detailProduct.html">AMD Ryzen 7 7800X3D 8-Core</a>
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span class="rating-count">(95)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$429.99</span>
+                <span class="old-price">$449.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 3 -->
+          <div class="product-card">
+            <div class="product-badge sale-badge">Sale -15%</div>
+            <div class="product-image">
+              <img
+                src="/img/81JPZdpeH+L._AC_SL1500_.jpg"
+                alt="Samsung 990 Pro 2TB SSD"
+              />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Storage</div>
+              <h3 class="product-name">
+                <a href="/detailProduct.html">Samsung 990 Pro 2TB NVMe SSD</a>
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <span class="rating-count">(64)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$169.99</span>
+                <span class="old-price">$199.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 4 -->
+          <div class="product-card">
+            <div class="product-badge">Best Seller</div>
+            <div class="product-image">
+              <img
+                src="/img/81GyQ70aigL._AC_SL1500_.jpg"
+                alt="ASUS ROG Strix Gaming Monitor"
+              />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Monitors</div>
+              <h3 class="product-name">
+                <a href="/detailProduct.html">ASUS ROG Strix 27" 1440p 180Hz</a>
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="rating-count">(76)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$399.99</span>
+                <span class="old-price">$449.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- New Arrivals Section -->
+    <section class="new-arrivals-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">New Arrivals</h2>
+          <a href="new-arrivals.html" class="view-all"
+            >View All <i class="fas fa-arrow-right"></i
+          ></a>
+        </div>
+
+        <div class="product-grid">
+          <!-- Product Card 1 -->
+          <div class="product-card">
+            <div class="product-badge new-badge">New</div>
+            <div class="product-image">
+              <img src="/api/placeholder/240/180" alt="Intel Core i9-14900K" />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Processors</div>
+              <h3 class="product-name">
+                <a href="product-details.html">Intel Core i9-14900K 24-Core</a>
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="rating-count">(42)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$579.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 2 -->
+          <div class="product-card">
+            <div class="product-badge new-badge">New</div>
+            <div class="product-image">
+              <img src="/api/placeholder/240/180" alt="ASUS ROG Strix X870-E" />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Motherboards</div>
+              <h3 class="product-name">
+                <a href="product-details.html"
+                  >ASUS ROG Strix X870-E Gaming WiFi</a
+                >
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span class="rating-count">(28)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$429.99</span>
+                <span class="old-price">$449.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 3 -->
+          <div class="product-card">
+            <div class="product-badge new-badge">New</div>
+            <div class="product-image">
+              <img
+                src="/api/placeholder/240/180"
+                alt="Corsair Dominator RGB DDR5"
+              />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Memory (RAM)</div>
+              <h3 class="product-name">
+                <a href="product-details.html"
+                  >Corsair Dominator RGB 32GB DDR5-6000</a
+                >
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <span class="rating-count">(17)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$189.99</span>
+                <span class="old-price">$209.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 4 -->
+          <div class="product-card">
+            <div class="product-badge preorder-badge">Pre-order</div>
+            <div class="product-image">
+              <img src="/api/placeholder/240/180" alt="LG UltraGear OLED 32" />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Monitors</div>
+              <h3 class="product-name">
+                <a href="product-details.html"
+                  >LG UltraGear OLED 32" 4K 240Hz</a
+                >
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span class="rating-count">(5)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$999.99</span>
+                <span class="old-price">$1,099.99</span>
+              </div>
+              <button class="add-to-cart-btn preorder">
+                <i class="fas fa-shopping-cart"></i> Pre-order Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="special-offers-section">
+      <div class="section-container" style="padding-top: 48px">
+        <div class="section-header">
+          <h2 class="section-title">Special Offers</h2>
+          <a href="special-offers.html" class="view-all"
+            >View All <i class="fas fa-arrow-right"></i
+          ></a>
+        </div>
+
+        <div class="product-grid">
+          <!-- Product Card 1 -->
+          <div class="product-card">
+            <div class="product-badge sale-badge">Sale -25%</div>
+            <div class="product-image">
+              <img src="/api/placeholder/240/180" alt="Razer Huntsman V2" />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Keyboards</div>
+              <h3 class="product-name">
+                <a href="product-details.html"
+                  >Razer Huntsman V2 Optical Gaming Keyboard</a
+                >
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="rating-count">(83)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$149.99</span>
+                <span class="old-price">$199.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 2 -->
+          <div class="product-card">
+            <div class="product-badge sale-badge">Sale -20%</div>
+            <div class="product-image">
+              <img
+                src="/api/placeholder/240/180"
+                alt="Lian Li O11 Dynamic EVO"
+              />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Cases</div>
+              <h3 class="product-name">
+                <a href="product-details.html">Lian Li O11 Dynamic EVO White</a>
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span class="rating-count">(112)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$119.99</span>
+                <span class="old-price">$149.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 3 -->
+          <div class="product-card">
+            <div class="product-badge sale-badge">Sale -30%</div>
+            <div class="product-image">
+              <img
+                src="/api/placeholder/240/180"
+                alt="Logitech G Pro X Superlight"
+              />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Mice</div>
+              <h3 class="product-name">
+                <a href="product-details.html"
+                  >Logitech G Pro X Superlight Wireless Gaming Mouse</a
+                >
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span class="rating-count">(96)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$99.99</span>
+                <span class="old-price">$149.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Card 4 -->
+          <div class="product-card">
+            <div class="product-badge sale-badge">Sale -15%</div>
+            <div class="product-image">
+              <img src="/api/placeholder/240/180" alt="Cooler Master ML360R" />
+              <div class="product-actions">
+                <button class="quick-view" title="Quick View">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="add-to-wishlist" title="Add to Wishlist">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="add-to-compare" title="Compare">
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Cooling</div>
+              <h3 class="product-name">
+                <a href="product-details.html"
+                  >Cooler Master ML360R RGB AIO Liquid Cooler</a
+                >
+              </h3>
+              <div class="product-ratings">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span class="rating-count">(74)</span>
+              </div>
+              <div class="product-price">
+                <span class="current-price">$129.99</span>
+                <span class="old-price">$149.99</span>
+              </div>
+              <button class="add-to-cart-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Brand Categories Section -->
+    <section class="brand-categories-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">Shop by Brand</h2>
+          <a href="brands.html" class="view-all"
+            >View All <i class="fas fa-arrow-right"></i
+          ></a>
+        </div>
+
+        <div class="brand-grid">
+          <!-- ASUS -->
+          <div class="brand-card">
+            <a href="brands/asus.html">
+              <div class="brand-image">
+                <img src="/img_logo/logo-asus-png-7165.png" alt="ASUS" />
+              </div>
+              <div class="brand-name">ASUS</div>
+            </a>
+          </div>
+
+          <!-- DELL -->
+          <div class="brand-card">
+            <a href="brands/dell.html">
+              <div class="brand-image">
+                <img src="/img_logo/dell-png-logo-3742.png" alt="DELL" />
+              </div>
+              <div class="brand-name">DELL</div>
+            </a>
+          </div>
+
+          <!-- RAZER -->
+          <div class="brand-card">
+            <a href="brands/razer.html">
+              <div class="brand-image">
+                <img src="/img_logo/31198-2-razer-logo.png" alt="RAZER" />
+              </div>
+              <div class="brand-name">RAZER</div>
+            </a>
+          </div>
+
+          <!-- LENOVO -->
+          <div class="brand-card">
+            <a href="brands/lenovo.html">
+              <div class="brand-image">
+                <img src="/img_logo/Lenovo-Logo-PNG-Clipart.png" alt="LENOVO" />
+              </div>
+              <div class="brand-name">LENOVO</div>
+            </a>
+          </div>
+
+          <!-- ACER -->
+          <div class="brand-card">
+            <a href="brands/acer.html">
+              <div class="brand-image">
+                <img src="/img_logo/acer-seeklogo.png" alt="ACER" />
+              </div>
+              <div class="brand-name">ACER</div>
+            </a>
+          </div>
+
+          <!-- APPLE -->
+          <div class="brand-card">
+            <a href="brands/apple.html">
+              <div class="brand-image">
+                <img src="/img_logo/png-apple-logo-9711.png" alt="APPLE" />
+              </div>
+              <div class="brand-name">APPLE</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer Section -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Footer Top Section with Columns -->
+        <div class="footer-top">
+          <!-- Company Info Column -->
+          <div class="footer-column">
+            <div class="footer-logo">
+              <a href="index.html">Tech<span>Hub</span></a>
+            </div>
+            <p class="footer-description">
+              Your one-stop destination for premium computer hardware,
+              components, and tech accessories.
+            </p>
+            <div class="footer-social">
+              <a href="#" class="social-icon"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-icon"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+            </div>
+          </div>
+
+          <!-- Quick Links Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="faq.html">FAQs</a></li>
+              <li><a href="shipping.html">Shipping Info</a></li>
+              <li><a href="returns.html">Returns Policy</a></li>
+            </ul>
+          </div>
+
+          <!-- Products Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Products</h3>
+            <ul class="footer-links">
+              <li><a href="computers.html">Computers</a></li>
+              <li><a href="components.html">Components</a></li>
+              <li><a href="peripherals.html">Peripherals</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="deals.html">Special Deals</a></li>
+              <li><a href="new-arrivals.html">New Arrivals</a></li>
+            </ul>
+          </div>
+
+          <!-- My Account Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">My Account</h3>
+            <ul class="footer-links">
+              <li><a href="login.html">Login / Register</a></li>
+              <li><a href="my-account.html">My Profile</a></li>
+              <li><a href="orders.html">Order History</a></li>
+              <li><a href="wishlist.html">Wishlist</a></li>
+              <li><a href="track-order.html">Track Order</a></li>
+              <li><a href="support-tickets.html">Support Tickets</a></li>
+            </ul>
+          </div>
+
+          <!-- Newsletter Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Newsletter</h3>
+            <p class="footer-newsletter-text">
+              Subscribe to receive updates, access to exclusive deals, and more.
+            </p>
+            <form class="footer-newsletter-form">
+              <input
+                type="email"
+                class="newsletter-input"
+                placeholder="Enter your email"
+                aria-label="Email for newsletter"
+              />
+              <button type="submit" class="newsletter-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+            <p class="footer-newsletter-terms">
+              By subscribing you agree to our
+              <a href="terms.html">Terms & Conditions</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer Middle - Payment Methods -->
+        <div class="footer-middle">
+          <div class="payment-methods">
+            <h3 class="payment-title">Payment Methods</h3>
+            <div class="payment-icons">
+              <i class="fab fa-cc-visa"></i>
+              <i class="fab fa-cc-mastercard"></i>
+              <i class="fab fa-cc-amex"></i>
+              <i class="fab fa-cc-discover"></i>
+              <i class="fab fa-cc-paypal"></i>
+              <i class="fab fa-apple-pay"></i>
+              <i class="fab fa-google-pay"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom - Copyright -->
+        <div class="footer-bottom">
+          <div class="copyright">&copy; 2025 TechHub. All Rights Reserved.</div>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="sitemap.html">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NVIDIA RTX 4070 12GB GDDR6X - TechHub</title>
+    <!-- Changed Title -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Assuming shared style.css -->
+    <!-- Add specific styles for product detail page if needed, or include in style.css -->
+    <style>
+      /* Basic layout styles for demonstration - Put these in style.css ideally */
+      .product-detail-page {
+        padding: 40px 0;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+      .breadcrumbs {
+        margin-bottom: 20px;
+        font-size: 0.9em;
+        color: #555;
+      }
+      .breadcrumbs a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .breadcrumbs span {
+        margin: 0 5px;
+      }
+      .product-detail-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      .product-gallery {
+        flex: 1 1 45%;
+      }
+      .product-info-main {
+        flex: 1 1 50%;
+      }
+      .main-image img {
+        width: 100%;
+        max-width: 500px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        display: block;
+        margin: 0 auto 15px auto;
+      }
+      .thumbnail-images {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .thumbnail-images img {
+        width: 80px;
+        height: 60px;
+        object-fit: cover;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+      }
+      .thumbnail-images img.active,
+      .thumbnail-images img:hover {
+        border-color: #007bff;
+      }
+
+      .product-info-main h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+      .product-meta {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 15px;
+      }
+      .product-meta a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .product-meta span {
+        margin: 0 5px;
+      }
+      .product-ratings {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      } /* Reuse from index */
+      .product-ratings .fa-star,
+      .product-ratings .fa-star-half-alt {
+        color: #ffc107;
+      }
+      .product-ratings .rating-count {
+        margin-left: 8px;
+        font-size: 0.9em;
+        color: #555;
+      }
+      .product-price {
+        margin-bottom: 20px;
+        font-size: 1.2em;
+      } /* Reuse from index */
+      .product-price .current-price {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #e63946;
+        margin-right: 10px;
+      }
+      .product-price .old-price {
+        text-decoration: line-through;
+        color: #aaa;
+        font-size: 1.1em;
+      }
+      .product-availability {
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+      .availability-in-stock {
+        color: #2a9d8f;
+      }
+      .availability-out-stock {
+        color: #e63946;
+      }
+      .short-description {
+        margin-bottom: 25px;
+        line-height: 1.6;
+        color: #555;
+      }
+      .quantity-selector {
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .quantity-selector label {
+        font-weight: bold;
+      }
+      .quantity-input {
+        width: 60px;
+        text-align: center;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .product-actions-main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+      .product-actions-main .add-to-cart-btn {
+        /* Reuse from index */
+        padding: 12px 25px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+      .product-actions-main .action-btn {
+        background: none;
+        border: 1px solid #ccc;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .product-actions-main .action-btn:hover {
+        background-color: #f0f0f0;
+        border-color: #aaa;
+      }
+      .product-actions-main .action-btn i {
+        margin-right: 5px;
+      }
+
+      .product-details-tabs {
+        border-top: 1px solid #eee;
+        padding-top: 30px;
+        margin-bottom: 40px;
+      }
+      .tab-navigation {
+        display: flex;
+        gap: 10px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 25px;
+      }
+      .tab-btn {
+        padding: 10px 20px;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-size: 1.1em;
+        color: #555;
+        transition: all 0.3s ease;
+      }
+      .tab-btn.active,
+      .tab-btn:hover {
+        color: #007bff;
+        border-bottom-color: #007bff;
+      }
+      .tab-content {
+        display: none;
+        line-height: 1.7;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      .spec-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      .spec-table th,
+      .spec-table td {
+        border: 1px solid #eee;
+        padding: 10px 15px;
+        text-align: left;
+      }
+      .spec-table th {
+        background-color: #f8f8f8;
+        width: 30%;
+      }
+      .reviews-summary {
+        margin-bottom: 30px;
+      }
+      .review-list {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+      .review-item {
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 20px;
+      }
+      .review-item:last-child {
+        border-bottom: none;
+      }
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .review-author {
+        font-weight: bold;
+      }
+      .review-time {
+        font-size: 0.85em;
+        color: #888;
+      }
+      .review-body {
+        color: #555;
+      }
+
+      /* Reusing product grid styles from index.html for related products */
+      .related-products-section {
+        background-color: #f9f9f9;
+        padding: 40px 0;
+      }
+      /* Assuming product-grid, product-card styles are defined globally in style.css */
+
+      /* Ensure footer styling is consistent (should be in style.css) */
+      .footer {
+        /* styles from index.html */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar (Copied from index.html) -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="logo">Tech<span>Hub</span></a>
+        <div class="mobile-toggle" id="mobile-toggle">☰</div>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="computers.html">Computers ▾</a>
+            <div class="dropdown-content">
+              <a href="desktops.html">Desktop PCs</a>
+              <a href="laptops.html">Laptops</a>
+              <a href="gaming.html">Gaming PCs</a>
+              <a href="workstations.html">Workstations</a>
+              <a href="mini-pcs.html">Mini PCs</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="components.html">Components ▾</a>
+            <div class="dropdown-content">
+              <a href="processors.html">Processors</a>
+              <a href="motherboards.html">Motherboards</a>
+              <a href="graphics-cards.html">Graphics Cards</a>
+              <a href="memory.html">Memory (RAM)</a>
+              <a href="storage.html">Storage</a>
+              <a href="power-supplies.html">Power Supplies</a>
+              <a href="cooling.html">Cooling</a>
+              <a href="cases.html">Cases</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="peripherals.html">Peripherals ▾</a>
+            <div class="dropdown-content">
+              <a href="manHinh.html">Monitors</a>
+              <a href="keyboards.html">Keyboards</a>
+              <a href="mice.html">Mice</a>
+              <a href="headsets.html">Headsets</a>
+              <a href="speakers.html">Speakers</a>
+            </div>
+          </li>
+          <li><a href="deals.html">Deals</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+        <div class="icons">
+          <div class="search-container">
+            <div class="search-bar">
+              <input
+                type="text"
+                class="search-input"
+                id="search-input"
+                placeholder="Search products..."
+                aria-label="Search"
+              />
+              <button class="search-btn" id="search-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </div>
+          <div class="icon notification-icon" id="notification-icon">
+            <i class="fas fa-bell"></i><span class="notification-count">2</span>
+          </div>
+          <div class="icon" id="account-icon"><i class="fas fa-user"></i></div>
+          <div class="icon" id="cart-icon">
+            <a href="cart.html" style="color: inherit; text-decoration: none"
+              ><i class="fas fa-shopping-cart"></i
+              ><span class="cart-count">3</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Overlay and Notification Panel (Copied from index.html) -->
+    <div class="overlay" id="overlay"></div>
+    <div class="notification-panel" id="notification-panel">
+      <!-- Notification content from index.html -->
+      <div class="notification-header">
+        <h3>Notifications</h3>
+        <button class="mark-all-read" id="mark-all-read">
+          Mark all as read
+        </button>
+      </div>
+      <div class="notification-list" id="notification-list">
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Special Promotion</h4>
+            <p>15% off all laptops this week!</p>
+            <span class="notification-time">2 hours ago</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Product Back in Stock</h4>
+            <p>RTX 4080 is back in stock. Order now!</p>
+            <span class="notification-time">1 day ago</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item">
+          <div class="notification-content">
+            <h4>Order #12345 Delivered</h4>
+            <p>Your order has been delivered successfully.</p>
+            <span class="notification-time">3 days ago</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+      </div>
+      <div class="notification-settings">
+        <a href="notification-settings.html">Notification Settings</a>
+      </div>
+    </div>
+
+    <!-- Main Product Detail Section -->
+    <main class="product-detail-page">
+      <div class="container">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumbs">
+          <a href="index.html">Home</a> <span>›</span>
+          <a href="components.html">Components</a> <span>›</span>
+          <a href="graphics-cards.html">Graphics Cards</a> <span>›</span>
+          NVIDIA RTX 4070 12GB GDDR6X
+        </nav>
+
+        <!-- Product Core Details -->
+        <div class="product-detail-container">
+          <!-- Product Gallery -->
+          <div class="product-gallery">
+            <div class="main-image">
+              <img
+                src="/img/81E3tQNSq7L._AC_SL1500_.jpg"
+                alt="NVIDIA RTX 4070 Main Image"
+                id="main-product-image"
+              />
+            </div>
+            <div class="thumbnail-images">
+              <img
+                src="/img/815b3+qj0wL._AC_SL1500_.jpg"
+                alt="RTX 4070 Thumbnail 1"
+                class="active"
+                data-image="/img/815b3+qj0wL._AC_SL1500_.jpg"
+              />
+              <img
+                src="/img/81GyQ70aigL._AC_SL1500_.jpg"
+                alt="RTX 4070 Thumbnail 2"
+                data-image="/img/81GyQ70aigL._AC_SL1500_.jpg"
+              />
+              <img
+                src="/img/81hp6vpk35L._AC_SL1500_.jpg"
+                alt="RTX 4070 Thumbnail 3"
+                data-image="/img/81hp6vpk35L._AC_SL1500_.jpg"
+              />
+              <img
+                src="/img/81JPZdpeH+L._AC_SL1500_.jpg"
+                alt="RTX 4070 Thumbnail 4"
+                data-image="/img/81JPZdpeH+L._AC_SL1500_.jpg"
+              />
+            </div>
+          </div>
+
+          <!-- Product Information -->
+          <div class="product-info-main">
+            <h1>NVIDIA RTX 4070 12GB GDDR6X Graphics Card</h1>
+            <div class="product-meta">
+              Brand: <a href="brands/nvidia.html">NVIDIA</a>
+              <span>|</span> Category:
+              <a href="graphics-cards.html">Graphics Cards</a> <span>|</span>
+              SKU: NV-RTX4070-12G
+            </div>
+            <div class="product-ratings">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span class="rating-count">(128 Reviews)</span>
+            </div>
+            <div class="product-price">
+              <span class="current-price">$599.99</span>
+              <span class="old-price">$649.99</span>
+              <!-- Optional: Savings Badge -->
+              <!-- <span class="sale-badge">-8%</span> -->
+            </div>
+            <div class="product-availability">
+              <span class="availability-in-stock"
+                ><i class="fas fa-check-circle"></i> In Stock</span
+              >
+              <!-- Or: <span class="availability-out-stock"><i class="fas fa-times-circle"></i> Out of Stock</span> -->
+            </div>
+            <p class="short-description">
+              Experience ultra-performance gaming and creating with the NVIDIA
+              GeForce RTX 4070. Built with the ultra-efficient NVIDIA Ada
+              Lovelace architecture. Experience fast ray tracing, AI-accelerated
+              performance with DLSS 3, new ways to create, and much more.
+            </p>
+
+            <!-- Optional: Variations (e.g., Color, Model) -->
+            <!-- <div class="product-variations"> ... </div> -->
+
+            <div class="quantity-selector">
+              <label for="quantity">Quantity:</label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                class="quantity-input"
+                value="1"
+                min="1"
+                max="10"
+                aria-label="Quantity"
+              />
+            </div>
+
+            <div class="product-actions-main">
+              <button class="add-to-cart-btn primary-btn">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+              <button
+                class="action-btn add-to-wishlist"
+                title="Add to Wishlist"
+              >
+                <i class="fas fa-heart"></i> Add to Wishlist
+              </button>
+              <button class="action-btn add-to-compare" title="Compare">
+                <i class="fas fa-exchange-alt"></i> Compare
+              </button>
+            </div>
+
+            <!-- Optional: Short highlights/features list -->
+            <ul class="feature-highlights">
+              <li>
+                <i class="fas fa-check"></i> NVIDIA Ada Lovelace Architecture
+              </li>
+              <li><i class="fas fa-check"></i> 12GB GDDR6X Memory</li>
+              <li><i class="fas fa-check"></i> DLSS 3 Technology</li>
+              <li><i class="fas fa-check"></i> Ray Tracing Cores</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Product Details Tabs -->
+        <div class="product-details-tabs">
+          <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="description">
+              Description
+            </button>
+            <button class="tab-btn" data-tab="specifications">
+              Specifications
+            </button>
+          </div>
+
+          <div id="description" class="tab-content active">
+            <h3>Product Description</h3>
+            <p>
+              The NVIDIA® GeForce RTX™ 4070 delivers the ultra performance and
+              features that enthusiast gamers and creators demand. Bring your
+              games and creative projects to life with ray tracing and
+              AI-powered graphics. It's powered by the ultra-efficient NVIDIA
+              Ada Lovelace architecture and 12GB of superfast G6X memory.
+            </p>
+            <h4>Key Features:</h4>
+            <ul>
+              <li>
+                <strong>NVIDIA Ada Lovelace Architecture:</strong> Experience a
+                quantum leap in performance, efficiency, and AI-powered
+                graphics.
+              </li>
+              <li>
+                <strong>Dedicated Ray Tracing Cores:</strong> Delivers realistic
+                and immersive graphics.
+              </li>
+              <li>
+                <strong>NVIDIA DLSS 3:</strong> AI-accelerated performance
+                booster.
+              </li>
+              <li>
+                <strong>NVIDIA Reflex:</strong> Low-latency platform for
+                competitive gaming.
+              </li>
+              <li>
+                <strong>12GB GDDR6X Memory:</strong> High-speed memory for
+                demanding games and applications.
+              </li>
+              <li>
+                <strong>Game Ready & Studio Drivers:</strong> Optimized
+                performance and reliability.
+              </li>
+            </ul>
+            <p>
+              Perfect for 1440p high-refresh rate gaming, the RTX 4070 offers
+              incredible performance in the latest titles. It also accelerates
+              creative workflows with faster rendering times and AI-powered
+              tools in applications like Adobe Creative Suite, Blender, and
+              more.
+            </p>
+          </div>
+
+          <div id="specifications" class="tab-content">
+            <h3>Technical Specifications</h3>
+            <table class="spec-table">
+              <tbody>
+                <tr>
+                  <th>GPU Architecture</th>
+                  <td>NVIDIA Ada Lovelace</td>
+                </tr>
+                <tr>
+                  <th>CUDA Cores</th>
+                  <td>5888</td>
+                </tr>
+                <tr>
+                  <th>Boost Clock</th>
+                  <td>2.48 GHz</td>
+                </tr>
+                <tr>
+                  <th>Base Clock</th>
+                  <td>1.92 GHz</td>
+                </tr>
+                <tr>
+                  <th>Memory Size</th>
+                  <td>12 GB</td>
+                </tr>
+                <tr>
+                  <th>Memory Type</th>
+                  <td>GDDR6X</td>
+                </tr>
+                <tr>
+                  <th>Memory Interface</th>
+                  <td>192-bit</td>
+                </tr>
+                <tr>
+                  <th>Memory Bandwidth</th>
+                  <td>504 GB/s</td>
+                </tr>
+                <tr>
+                  <th>Ray Tracing Cores</th>
+                  <td>3rd Generation</td>
+                </tr>
+                <tr>
+                  <th>Tensor Cores</th>
+                  <td>4th Generation</td>
+                </tr>
+                <tr>
+                  <th>NVIDIA DLSS</th>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <th>Outputs</th>
+                  <td>HDMI 2.1a, 3x DisplayPort 1.4a</td>
+                </tr>
+                <tr>
+                  <th>Max Resolution</th>
+                  <td>7680x4320 (8K)</td>
+                </tr>
+                <tr>
+                  <th>Power Connectors</th>
+                  <td>1x 16-pin (or 2x 8-pin via adapter)</td>
+                </tr>
+                <tr>
+                  <th>Recommended PSU</th>
+                  <td>650W</td>
+                </tr>
+                <tr>
+                  <th>Card Dimensions</th>
+                  <td>(Varies by model - e.g., 242mm x 112mm)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Related Products Section -->
+        <section class="related-products-section">
+          <div class="section-container">
+            <div class="section-header">
+              <h2 class="section-title">Customers Also Bought</h2>
+              <!-- Optional View All link -->
+              <!-- <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a> -->
+            </div>
+            <div class="product-grid">
+              <!-- Example Related Product Card 1 ( Reuse structure from index.html ) -->
+              <div class="product-card">
+                <!-- <div class="product-badge">...</div> -->
+                <div class="product-image">
+                  <img
+                    src="/img/products/amd-ryzen-7800x3d.jpg"
+                    alt="AMD Ryzen 7 7800X3D"
+                  />
+                  <div class="product-actions">
+                    <button class="quick-view" title="Quick View">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="add-to-wishlist" title="Add to Wishlist">
+                      <i class="fas fa-heart"></i>
+                    </button>
+                    <button class="add-to-compare" title="Compare">
+                      <i class="fas fa-exchange-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Processors</div>
+                  <h3 class="product-name">
+                    <a href="product-details.html"
+                      >AMD Ryzen 7 7800X3D 8-Core</a
+                    >
+                  </h3>
+                  <div class="product-ratings">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="fas fa-star"></i>
+                    <span class="rating-count">(95)</span>
+                  </div>
+                  <div class="product-price">
+                    <span class="current-price">$429.99</span>
+                  </div>
+                  <button class="add-to-cart-btn">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                  </button>
+                </div>
+              </div>
+              <!-- Example Related Product Card 2 -->
+              <div class="product-card">
+                <div class="product-badge sale-badge">Sale -15%</div>
+                <div class="product-image">
+                  <img
+                    src="/img/products/samsung-990-pro-2tb-ssd.jpg"
+                    alt="Samsung 990 Pro 2TB SSD"
+                  />
+                  <div class="product-actions">
+                    <button class="quick-view" title="Quick View">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="add-to-wishlist" title="Add to Wishlist">
+                      <i class="fas fa-heart"></i>
+                    </button>
+                    <button class="add-to-compare" title="Compare">
+                      <i class="fas fa-exchange-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Storage</div>
+                  <h3 class="product-name">
+                    <a href="product-details.html"
+                      >Samsung 990 Pro 2TB NVMe SSD</a
+                    >
+                  </h3>
+                  <div class="product-ratings">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="far fa-star"></i>
+                    <span class="rating-count">(64)</span>
+                  </div>
+                  <div class="product-price">
+                    <span class="current-price">$169.99</span>
+                    <span class="old-price">$199.99</span>
+                  </div>
+                  <button class="add-to-cart-btn">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                  </button>
+                </div>
+              </div>
+              <!-- Add more related product cards -->
+              <div class="product-card">
+                <!-- <div class="product-badge">...</div> -->
+                <div class="product-image">
+                  <img
+                    src="/img/products/corsair-rm850x-psu.jpg"
+                    alt="Corsair RM850x PSU"
+                  />
+                  <div class="product-actions">
+                    <button class="quick-view" title="Quick View">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="add-to-wishlist" title="Add to Wishlist">
+                      <i class="fas fa-heart"></i>
+                    </button>
+                    <button class="add-to-compare" title="Compare">
+                      <i class="fas fa-exchange-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Power Supplies</div>
+                  <h3 class="product-name">
+                    <a href="product-details.html"
+                      >Corsair RM850x 850W 80+ Gold</a
+                    >
+                  </h3>
+                  <div class="product-ratings">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="fas fa-star-half-alt"></i>
+                    <span class="rating-count">(150)</span>
+                  </div>
+                  <div class="product-price">
+                    <span class="current-price">$149.99</span>
+                  </div>
+                  <button class="add-to-cart-btn">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                  </button>
+                </div>
+              </div>
+              <div class="product-card">
+                <!-- <div class="product-badge">...</div> -->
+                <div class="product-image">
+                  <img
+                    src="/img/products/asus-rog-strix-b650-a.jpg"
+                    alt="ASUS ROG Strix B650-A"
+                  />
+                  <div class="product-actions">
+                    <button class="quick-view" title="Quick View">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="add-to-wishlist" title="Add to Wishlist">
+                      <i class="fas fa-heart"></i>
+                    </button>
+                    <button class="add-to-compare" title="Compare">
+                      <i class="fas fa-exchange-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-category">Motherboards</div>
+                  <h3 class="product-name">
+                    <a href="product-details.html"
+                      >ASUS ROG Strix B650-A Gaming WiFi</a
+                    >
+                  </h3>
+                  <div class="product-ratings">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                    ><i class="far fa-star"></i>
+                    <span class="rating-count">(55)</span>
+                  </div>
+                  <div class="product-price">
+                    <span class="current-price">$259.99</span>
+                  </div>
+                  <button class="add-to-cart-btn">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- /.container -->
+    </main>
+
+    <!-- Footer Section (Copied from index.html) -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-top">
+          <div class="footer-column">
+            <div class="footer-logo">
+              <a href="index.html">Tech<span>Hub</span></a>
+            </div>
+            <p class="footer-description">
+              Your one-stop destination for premium computer hardware,
+              components, and tech accessories.
+            </p>
+            <div class="footer-social">
+              <a href="#" class="social-icon"
+                ><i class="fab fa-facebook-f"></i></a
+              ><a href="#" class="social-icon"><i class="fab fa-twitter"></i></a
+              ><a href="#" class="social-icon"
+                ><i class="fab fa-instagram"></i></a
+              ><a href="#" class="social-icon"><i class="fab fa-youtube"></i></a
+              ><a href="#" class="social-icon"
+                ><i class="fab fa-discord"></i
+              ></a>
+            </div>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="faq.html">FAQs</a></li>
+              <li><a href="shipping.html">Shipping Info</a></li>
+              <li><a href="returns.html">Returns Policy</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-heading">Products</h3>
+            <ul class="footer-links">
+              <li><a href="computers.html">Computers</a></li>
+              <li><a href="components.html">Components</a></li>
+              <li><a href="peripherals.html">Peripherals</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="deals.html">Special Deals</a></li>
+              <li><a href="new-arrivals.html">New Arrivals</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-heading">My Account</h3>
+            <ul class="footer-links">
+              <li><a href="login.html">Login / Register</a></li>
+              <li><a href="my-account.html">My Profile</a></li>
+              <li><a href="orders.html">Order History</a></li>
+              <li><a href="wishlist.html">Wishlist</a></li>
+              <li><a href="track-order.html">Track Order</a></li>
+              <li><a href="support-tickets.html">Support Tickets</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-heading">Newsletter</h3>
+            <p class="footer-newsletter-text">
+              Subscribe to receive updates, access to exclusive deals, and more.
+            </p>
+            <form class="footer-newsletter-form">
+              <input
+                type="email"
+                class="newsletter-input"
+                placeholder="Enter your email"
+                aria-label="Email for newsletter"
+              /><button type="submit" class="newsletter-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+            <p class="footer-newsletter-terms">
+              By subscribing you agree to our
+              <a href="terms.html">Terms & Conditions</a>
+            </p>
+          </div>
+        </div>
+        <div class="footer-middle">
+          <div class="payment-methods">
+            <h3 class="payment-title">Payment Methods</h3>
+            <div class="payment-icons">
+              <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i
+              ><i class="fab fa-cc-amex"></i><i class="fab fa-cc-discover"></i
+              ><i class="fab fa-cc-paypal"></i><i class="fab fa-apple-pay"></i
+              ><i class="fab fa-google-pay"></i>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="copyright">© 2025 TechHub. All Rights Reserved.</div>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a
+            ><a href="terms.html">Terms of Service</a
+            ><a href="sitemap.html">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to top button (Copied from index.html) -->
+    <button id="back-to-top" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <!-- Add specific JS for product page interactions (gallery, tabs) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Image Gallery Interaction
+        const mainImage = document.getElementById("main-product-image");
+        const thumbnails = document.querySelectorAll(".thumbnail-images img");
+
+        thumbnails.forEach((thumb) => {
+          thumb.addEventListener("click", function () {
+            // Update main image src using the actual thumbnail src or data-image
+            mainImage.src = this.getAttribute("data-image") || this.src;
+            // Update active state
+            thumbnails.forEach((t) => t.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        // Tab Functionality
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const tabId = this.dataset.tab;
+
+            // Update button active state
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            // Update content active state
+            tabContents.forEach((content) => {
+              if (content.id === tabId) {
+                content.classList.add("active");
+              } else {
+                content.classList.remove("active");
+              }
+            });
+          });
+        });
+
+        // Add functionality for shopping actions
+        document
+          .querySelector(".add-to-cart-btn")
+          .addEventListener("click", function () {
+            // Add product to cart logic
+            alert("Product added to cart!");
+            // You would typically use AJAX here to add the item to the cart
+          });
+
+        document
+          .querySelector(".add-to-wishlist")
+          .addEventListener("click", function () {
+            // Add to wishlist logic
+            this.classList.toggle("active");
+            alert("Product added to wishlist!");
+          });
+
+        document
+          .querySelector(".add-to-compare")
+          .addEventListener("click", function () {
+            // Add to compare logic
+            this.classList.toggle("active");
+            alert("Product added to comparison!");
+          });
+
+        // Handle quantity input validation
+        const quantityInput = document.getElementById("quantity");
+        quantityInput.addEventListener("change", function () {
+          if (this.value < 1) this.value = 1;
+          if (this.value > 10) this.value = 10;
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+Register.php was accessed at 2025-03-27 13:13:42
+POST data: Array
+(
+    [fullname] => khai
+    [email] => gameri1132003@gmail.com
+    [password] => 123
+    [confirm_password] => 123
+)
+
+Database connection successful
+Registration errors: Array
+(
+    [0] => Password must be at least 8 characters long
+)
+
+Register.php was accessed at 2025-03-27 13:18:17
+POST data: Array
+(
+    [fullname] => khai
+    [email] => gameri1132003@gmail.com
+    [password] => 12345
+    [confirm_password] => 12345
+)
+
+Database connection successful
+Registration errors: Array
+(
+    [0] => Password must be at least 8 characters long
+)
+
+Register.php was accessed at 2025-03-27 13:19:29
+POST data: Array
+(
+    [fullname] => khai
+    [email] => gameri1132003@gmail.com
+    [password] => 1234
+    [confirm_password] => 1234
+)
+
+Database connection successful
+Registration errors: Array
+(
+    [0] => Password must be at least 8 characters long
+)
+

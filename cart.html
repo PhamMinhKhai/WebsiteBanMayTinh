@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechHub - Your Cart</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Assume style.css contains general styles, and we add cart-specific ones inline -->
+    <!-- These are incorrect links and should ideally be removed: -->
+    <!-- <link rel="stylesheet" href="index.html" /> -->
+    <!-- <link rel="stylesheet" href="account.html" /> -->
+    <!-- <link rel="stylesheet" href="script.js" /> -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Cart-specific styles -->
+    <style>
+      /* Add some basic cart styles here for context */
+      .cart-container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .cart-container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+      }
+      .cart-items {
+        margin-bottom: 30px;
+      }
+      .cart-item {
+        display: flex;
+        gap: 20px;
+        padding: 20px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+      .cart-item-image img {
+        width: 100px;
+        height: auto;
+        border-radius: 4px;
+        border: 1px solid #eee;
+      }
+      .cart-item-details {
+        flex-grow: 1;
+      }
+      .cart-item-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .cart-item-specs {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 10px;
+      }
+      .cart-item-price {
+        font-weight: bold;
+        color: #e63946; /* Example color */
+        margin-bottom: 10px;
+        font-size: 1.1em;
+      }
+      .cart-item-quantity label {
+        display: block;
+        font-size: 0.9em;
+        margin-bottom: 5px;
+      }
+      .quantity-controls {
+        display: flex;
+        align-items: center;
+      }
+      .quantity-btn {
+        background-color: #eee;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 1em;
+        line-height: 1;
+      }
+      .quantity-input {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-left: none;
+        border-right: none;
+        padding: 5px;
+        font-size: 1em;
+        /* Remove spinner arrows */
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+      .quantity-input::-webkit-outer-spin-button,
+      .quantity-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .cart-item-remove {
+        background: none;
+        border: none;
+        color: #e63946;
+        cursor: pointer;
+        font-size: 1.2em;
+        align-self: center; /* Vertically center the button */
+        padding: 10px;
+      }
+      .cart-item-remove:hover {
+        color: #c0392b;
+      }
+
+      .empty-cart-message {
+        text-align: center;
+        padding: 50px 20px;
+        border: 2px dashed #eee;
+        border-radius: 8px;
+        color: #666;
+      }
+      .empty-cart-icon {
+        font-size: 3em;
+        margin-bottom: 20px;
+        color: #ccc;
+      }
+      .empty-cart-message p {
+        font-size: 1.2em;
+        margin-bottom: 25px;
+      }
+      .continue-shopping {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: #1a237e; /* Example color */
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+      .continue-shopping:hover {
+        background-color: #283593; /* Example hover color */
+      }
+
+      .cart-summary {
+        border-top: 2px solid #eee;
+        padding-top: 20px;
+        max-width: 400px;
+        margin-left: auto; /* Align to the right */
+      }
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 1em;
+        color: #555;
+      }
+      .cart-total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #333;
+        border-top: 1px solid #ccc;
+        padding-top: 15px;
+      }
+      .promo-code {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      .promo-code label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9em;
+      }
+      .promo-code-input {
+        display: flex;
+      }
+      .promo-code-input input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px 0 0 4px;
+      }
+      .promo-code-input button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #555;
+        color: white;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .promo-code-input button:hover {
+        background-color: #333;
+      }
+      .checkout-btn {
+        width: 100%;
+        padding: 15px;
+        background-color: #27ae60; /* Example checkout color */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 15px;
+      }
+      .checkout-btn:hover {
+        background-color: #229954;
+      }
+
+      .cart-recommendations {
+        margin-top: 50px;
+        border-top: 1px solid #eee;
+        padding-top: 30px;
+      }
+      .recommendations-title {
+        text-align: center;
+        font-size: 1.5em;
+        margin-bottom: 30px;
+        color: #333;
+      }
+      .recommendations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+      }
+      .recommendation-item {
+        border: 1px solid #eee;
+        border-radius: 4px;
+        padding: 15px;
+        text-align: center;
+      }
+      .recommendation-image img {
+        max-width: 100%;
+        height: 100px; /* Fixed height */
+        object-fit: contain; /* Scale image while preserving aspect ratio */
+        margin-bottom: 10px;
+      }
+      .recommendation-title {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+        height: 3em; /* Allow for 2 lines */
+        overflow: hidden;
+      }
+      .recommendation-price {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .add-to-cart-btn {
+        /* Basic button style */
+        padding: 8px 15px;
+        background-color: #1a237e;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 0.9em;
+      }
+      .add-to-cart-btn:hover {
+        background-color: #283593;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="logo">Tech<span>Hub</span></a>
+        <div class="mobile-toggle" id="mobile-toggle">☰</div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="computers.html">Computers ▾</a>
+            <div class="dropdown-content">
+              <a href="manHinh.html">Desktop PCs</a>
+              <a href="laptops.html">Laptops</a>
+              <a href="gaming.html">Gaming PCs</a>
+              <a href="workstations.html">Workstations</a>
+              <a href="mini-pcs.html">Mini PCs</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="components.html">Components ▾</a>
+            <div class="dropdown-content">
+              <a href="processors.html">Processors</a>
+              <a href="motherboards.html">Motherboards</a>
+              <a href="graphics-cards.html">Graphics Cards</a>
+              <a href="memory.html">Memory (RAM)</a>
+              <a href="storage.html">Storage</a>
+              <a href="power-supplies.html">Power Supplies</a>
+              <a href="cooling.html">Cooling</a>
+              <a href="cases.html">Cases</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="peripherals.html">Peripherals ▾</a>
+            <div class="dropdown-content">
+              <a href="manHinh.html">Monitors</a>
+              <a href="keyboards.html">Keyboards</a>
+              <a href="mice.html">Mice</a>
+              <a href="headsets.html">Headsets</a>
+              <a href="speakers.html">Speakers</a>
+            </div>
+          </li>
+          <li><a href="deals.html">Deals</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+
+        <!-- Icons for Search, Notifications, Account, and Cart -->
+        <div class="icons">
+          <div class="search-container">
+            <div class="search-bar">
+              <input
+                type="text"
+                class="search-input"
+                id="search-input"
+                placeholder="Search products..."
+                aria-label="Search"
+              />
+              <button class="search-btn" id="search-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </div>
+          <div class="icon notification-icon" id="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-count">2</span>
+          </div>
+          <div class="icon" id="account-icon">
+            <a href="account.html">
+              <i class="fas fa-user" style="color: white"></i>
+            </a>
+          </div>
+          <div class="icon" id="cart-icon">
+            <a href="cart.html" style="color: inherit; text-decoration: none">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">3</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Overlay for Modal or Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notification-panel">
+      <div class="notification-header">
+        <h3>Thông báo</h3>
+        <button class="mark-all-read" id="mark-all-read">
+          Đánh dấu tất cả đã đọc
+        </button>
+      </div>
+      <div class="notification-list" id="notification-list">
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Khuyến mãi đặc biệt</h4>
+            <p>Giảm giá 15% cho tất cả laptop trong tuần này!</p>
+            <span class="notification-time">2 giờ trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item unread">
+          <div class="notification-content">
+            <h4>Sản phẩm đã về kho</h4>
+            <p>RTX 4080 đã có hàng trở lại. Nhanh tay đặt ngay!</p>
+            <span class="notification-time">1 ngày trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+        <div class="notification-item">
+          <div class="notification-content">
+            <h4>Đơn hàng #12345 đã giao</h4>
+            <p>Đơn hàng của bạn đã được giao thành công.</p>
+            <span class="notification-time">3 ngày trước</span>
+          </div>
+          <button class="notification-delete">×</button>
+        </div>
+      </div>
+      <div class="notification-settings">
+        <a href="notification-settings.html">Cài đặt thông báo</a>
+      </div>
+    </div>
+
+    <div class="cart-container">
+      <h2>Your Shopping Cart</h2>
+
+      <div class="cart-items" id="cart-items">
+        <!-- Cart Item 1 -->
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img
+              src="/img/815b3+qj0wL._AC_SL1500_.jpg"
+              alt="ASUS ROG Strix Gaming Laptop"
+            />
+          </div>
+          <div class="cart-item-details">
+            <div class="cart-item-title">ASUS ROG Strix G15 Gaming Laptop</div>
+            <div class="cart-item-specs">
+              AMD Ryzen 9, RTX 3080, 32GB RAM, 1TB SSD
+            </div>
+            <div class="cart-item-price">$1899.99</div>
+            <!-- No comma -->
+            <div class="cart-item-quantity">
+              <label for="quantity1">Quantity:</label>
+              <div class="quantity-controls">
+                <button class="quantity-btn decrease" data-item-id="1">
+                  -
+                </button>
+                <input
+                  type="number"
+                  id="quantity1"
+                  class="quantity-input"
+                  value="1"
+                  min="1"
+                  max="10"
+                  data-item-id="1"
+                />
+                <button class="quantity-btn increase" data-item-id="1">
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="cart-item-remove" data-item-id="1">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+
+        <!-- Cart Item 2 -->
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img
+              src="/img/81GyQ70aigL._AC_SL1500_.jpg"
+              alt="Samsung Odyssey G7 Monitor"
+            />
+          </div>
+          <div class="cart-item-details">
+            <div class="cart-item-title">Samsung Odyssey G7 Gaming Monitor</div>
+            <div class="cart-item-specs">32", 1440p, 240Hz, Curved</div>
+            <div class="cart-item-price">$649.99</div>
+            <div class="cart-item-quantity">
+              <label for="quantity2">Quantity:</label>
+              <div class="quantity-controls">
+                <button class="quantity-btn decrease" data-item-id="2">
+                  -
+                </button>
+                <input
+                  type="number"
+                  id="quantity2"
+                  class="quantity-input"
+                  value="1"
+                  min="1"
+                  max="10"
+                  data-item-id="2"
+                />
+                <button class="quantity-btn increase" data-item-id="2">
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="cart-item-remove" data-item-id="2">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+
+        <!-- Cart Item 3 -->
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img
+              src="/img/81JPZdpeH+L._AC_SL1500_.jpg"
+              alt="Logitech G Pro X Keyboard"
+            />
+          </div>
+          <div class="cart-item-details">
+            <div class="cart-item-title">
+              Logitech G Pro X Mechanical Gaming Keyboard
+            </div>
+            <div class="cart-item-specs">RGB, GX Blue Switches</div>
+            <div class="cart-item-price">$149.99</div>
+            <div class="cart-item-quantity">
+              <label for="quantity3">Quantity:</label>
+              <div class="quantity-controls">
+                <button class="quantity-btn decrease" data-item-id="3">
+                  -
+                </button>
+                <input
+                  type="number"
+                  id="quantity3"
+                  class="quantity-input"
+                  value="1"
+                  min="1"
+                  max="10"
+                  data-item-id="3"
+                />
+                <button class="quantity-btn increase" data-item-id="3">
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="cart-item-remove" data-item-id="3">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty Cart Message (Initially hidden) -->
+      <div class="empty-cart-message" style="display: none">
+        <div class="empty-cart-icon"><i class="fas fa-shopping-cart"></i></div>
+        <p>Your cart is currently empty.</p>
+        <a href="index.html" class="continue-shopping">Continue Shopping</a>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="cart-summary">
+        <div class="summary-row cart-subtotal">
+          <span>Subtotal:</span>
+          <span id="subtotal">$2,699.97</span>
+        </div>
+        <div class="summary-row cart-shipping">
+          <span>Shipping:</span>
+          <span id="shipping">Free</span>
+        </div>
+        <div class="summary-row cart-tax">
+          <span>Estimated Tax:</span>
+          <span id="tax">$162.00</span>
+        </div>
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="total">$2,861.97</span>
+        </div>
+
+        <div class="promo-code">
+          <label for="promo">Apply Promo Code:</label>
+          <div class="promo-code-input">
+            <input type="text" id="promo" placeholder="Enter promo code" />
+            <button id="apply-promo">Apply</button>
+          </div>
+        </div>
+
+        <button class="checkout-btn" id="checkout-btn">
+          Proceed to Checkout
+        </button>
+      </div>
+
+      <!-- You May Also Like Section -->
+      <div class="cart-recommendations">
+        <h3 class="recommendations-title">You May Also Like</h3>
+        <div class="recommendations-grid">
+          <!-- Recommendation 1 -->
+          <div class="recommendation-item">
+            <div class="recommendation-image">
+              <img src="placeholder-image.jpg" alt="Recommended Product" />
+            </div>
+            <div class="recommendation-details">
+              <div class="recommendation-title">
+                Logitech G Pro X Superlight Mouse
+              </div>
+              <div class="recommendation-price">$149.99</div>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+          </div>
+
+          <!-- Recommendation 2 -->
+          <div class="recommendation-item">
+            <div class="recommendation-image">
+              <img src="placeholder-image.jpg" alt="Recommended Product" />
+            </div>
+            <div class="recommendation-details">
+              <div class="recommendation-title">
+                SteelSeries Arctis Pro Wireless Headset
+              </div>
+              <div class="recommendation-price">$329.99</div>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+          </div>
+
+          <!-- Recommendation 3 -->
+          <div class="recommendation-item">
+            <div class="recommendation-image">
+              <img src="placeholder-image.jpg" alt="Recommended Product" />
+            </div>
+            <div class="recommendation-details">
+              <div class="recommendation-title">
+                Corsair MM700 RGB Extended Mouse Pad
+              </div>
+              <div class="recommendation-price">$59.99</div>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+          </div>
+
+          <!-- Recommendation 4 -->
+          <div class="recommendation-item">
+            <div class="recommendation-image">
+              <img src="placeholder-image.jpg" alt="Recommended Product" />
+            </div>
+            <div class="recommendation-details">
+              <div class="recommendation-title">
+                NZXT H510 Elite Mid-Tower Case
+              </div>
+              <div class="recommendation-price">$149.99</div>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Function to update the cart summary
+      function updateCartSummary() {
+        let subtotal = 0;
+        const cartItems = document.querySelectorAll(".cart-item");
+        const cartItemsContainer = document.getElementById("cart-items"); // Get container for empty check
+        const cartSummaryContainer = document.querySelector(".cart-summary"); // Get summary container
+
+        cartItems.forEach((item) => {
+          const priceElement = item.querySelector(".cart-item-price");
+          const quantityElement = item.querySelector(".quantity-input");
+
+          // Extract price and quantity, removing non-numeric characters (like $)
+          const priceText = priceElement.textContent || "0";
+          const price = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+          const quantity = parseInt(quantityElement.value, 10);
+
+          if (!isNaN(price) && !isNaN(quantity)) {
+            subtotal += price * quantity;
+          }
+        });
+
+        // Basic tax and shipping calculation (replace with your actual logic)
+        const shipping = 0; // Example: Free shipping
+        const taxRate = 0.06; // Example: 6% tax rate
+        const tax = subtotal * taxRate;
+        const total = subtotal + shipping + tax;
+
+        // Update the summary display. Use toFixed(2) to format to two decimal places
+        document.getElementById("subtotal").textContent = `$${subtotal.toFixed(
+          2
+        )}`;
+        document.getElementById("shipping").textContent =
+          shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`;
+        document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
+        document.getElementById("total").textContent = `$${total.toFixed(2)}`;
+
+        // Check if the cart is empty and toggle visibility of summary/empty message
+        toggleEmptyCartMessage();
+
+        // Also hide/show the summary block
+        if (cartItemsContainer.children.length === 0) {
+          cartSummaryContainer.style.display = "none";
+        } else {
+          cartSummaryContainer.style.display = "block"; // Or 'flex', depending on CSS
+        }
+      }
+
+      // Function to handle quantity changes
+      function handleQuantityChange(event) {
+        const target = event.target;
+        // Find the closest quantity input within the same quantity controls block
+        const input = target
+          .closest(".quantity-controls")
+          ?.querySelector(".quantity-input");
+        if (!input) return; // Exit if input not found
+
+        let value = parseInt(input.value, 10);
+        const min = parseInt(input.min, 10) || 1;
+        const max = parseInt(input.max, 10) || Infinity; // Use Infinity if max is not set
+
+        if (target.classList.contains("increase")) {
+          value++;
+        } else if (target.classList.contains("decrease")) {
+          value--;
+        }
+
+        // Ensure value is within min/max range
+        value = Math.max(min, Math.min(max, value));
+
+        input.value = value;
+        updateCartSummary();
+      }
+
+      // Function to remove an item from the cart
+      function removeItem(event) {
+        // Use currentTarget if delegation is set up, or target if direct listener
+        const removeButton = event.target.closest(".cart-item-remove");
+        if (!removeButton) return; // Exit if the click wasn't on or inside the button
+
+        const itemId = removeButton.dataset.itemId; // Get the item ID (optional, useful for backend)
+        const cartItem = removeButton.closest(".cart-item");
+        if (cartItem) {
+          // Optional: Add animation before removing
+          cartItem.style.transition =
+            "opacity 0.3s ease-out, transform 0.3s ease-out";
+          cartItem.style.opacity = "0";
+          cartItem.style.transform = "translateX(-20px)";
+          setTimeout(() => {
+            cartItem.remove();
+            updateCartSummary(); // Update summary after removing
+            updateCartIconCount(); // Update cart icon after removing
+          }, 300); // Match timeout to transition duration
+        }
+      }
+
+      // Function to toggle the empty cart message
+      function toggleEmptyCartMessage() {
+        const cartItemsContainer = document.getElementById("cart-items");
+        const emptyCartMessage = document.querySelector(".empty-cart-message");
+        // Ensure both elements exist before proceeding
+        if (!cartItemsContainer || !emptyCartMessage) return;
+
+        if (cartItemsContainer.children.length === 0) {
+          emptyCartMessage.style.display = "block"; // Show message
+        } else {
+          emptyCartMessage.style.display = "none"; // Hide message
+        }
+      }
+
+      // Function to update cart icon count. Call this whenever the cart changes.
+      function updateCartIconCount() {
+        const cartCountElement = document.querySelector(".cart-count"); // Select the span
+        if (cartCountElement) {
+          const itemCount = document.querySelectorAll(".cart-item").length; // Count actual items in the cart page
+          cartCountElement.textContent = itemCount;
+          // Hide badge if count is 0
+          cartCountElement.style.display = itemCount > 0 ? "flex" : "none";
+        }
+      }
+
+      // --- Event Listeners ---
+
+      // Event delegation for quantity buttons and remove buttons
+      document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("quantity-btn")) {
+          handleQuantityChange(event);
+        } else if (event.target.closest(".cart-item-remove")) {
+          // Handle clicks on the icon (<i>) inside the button as well
+          removeItem(event);
+        } else if (event.target.closest(".notification-delete")) {
+          // Basic notification delete handler
+          const notificationItem = event.target.closest(".notification-item");
+          if (notificationItem) notificationItem.remove();
+          // Update notification count if needed (implement separately)
+        } else if (event.target.id === "mobile-toggle") {
+          // Mobile menu toggle logic
+          const navLinks = document.getElementById("nav-links");
+          const overlay = document.getElementById("overlay");
+          if (navLinks) navLinks.classList.toggle("active");
+          if (overlay) overlay.classList.toggle("active"); // Toggle overlay with menu
+        } else if (event.target.id === "notification-icon") {
+          // Notification panel toggle
+          const notificationPanel =
+            document.getElementById("notification-panel");
+          const overlay = document.getElementById("overlay");
+          if (notificationPanel) notificationPanel.classList.toggle("active");
+          if (overlay) overlay.classList.toggle("active");
+        } else if (event.target.id === "overlay") {
+          // Close mobile menu and notification panel when overlay is clicked
+          const navLinks = document.getElementById("nav-links");
+          const notificationPanel =
+            document.getElementById("notification-panel");
+          const overlay = document.getElementById("overlay");
+          if (navLinks) navLinks.classList.remove("active");
+          if (notificationPanel) notificationPanel.classList.remove("active");
+          if (overlay) overlay.classList.remove("active");
+        }
+        // Add other delegated click handlers here if needed
+      });
+
+      // Event listener for direct input changes in the quantity field
+      document.addEventListener("input", function (event) {
+        if (event.target.classList.contains("quantity-input")) {
+          let value = parseInt(event.target.value, 10);
+          const min = parseInt(event.target.min, 10) || 1;
+          const max = parseInt(event.target.max, 10) || Infinity;
+
+          // Ensure value is a number and within range, or default to min
+          if (isNaN(value) || value < min) {
+            value = min;
+          } else if (value > max) {
+            value = max;
+          }
+          event.target.value = value; // Update the input's value if corrected
+          updateCartSummary();
+        }
+      });
+
+      // Promo code handling (basic example)
+      const applyPromoButton = document.getElementById("apply-promo");
+      if (applyPromoButton) {
+        applyPromoButton.addEventListener("click", function () {
+          const promoCodeInput = document.getElementById("promo");
+          const promoCode = promoCodeInput.value.trim();
+          if (promoCode) {
+            // Implement your promo code logic here. This is just a placeholder.
+            console.log("Applying promo code:", promoCode);
+            alert(`Promo code "${promoCode}" applied (placeholder).`);
+            // You would typically send this to the server to validate and apply the discount,
+            // then potentially call updateCartSummary() again if the discount affects totals.
+            promoCodeInput.value = ""; // Clear input after applying
+          } else {
+            alert("Please enter a promo code.");
+          }
+        });
+      }
+
+      // Initial setup when the page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        // Initial calculation and UI updates
+        updateCartSummary();
+        updateCartIconCount();
+
+        // Checkout button listener
+        const checkoutButton = document.getElementById("checkout-btn");
+        if (checkoutButton) {
+          checkoutButton.addEventListener("click", () => {
+            const totalItems = document.querySelectorAll(".cart-item").length;
+            if (totalItems > 0) {
+              alert(
+                "Proceeding to checkout (placeholder).\nImplement your checkout process here."
+              );
+              // Here, you would typically redirect to a checkout page
+              // window.location.href = '/checkout';
+            } else {
+              alert(
+                "Your cart is empty. Please add items before checking out."
+              );
+            }
+          });
+        }
+
+        // Add-to-cart buttons in recommendations (basic placeholder)
+        document
+          .querySelectorAll(".recommendation-item .add-to-cart-btn")
+          .forEach((button) => {
+            button.addEventListener("click", () => {
+              const itemTitle = button
+                .closest(".recommendation-item")
+                .querySelector(".recommendation-title")
+                .textContent.trim();
+              alert(
+                `${itemTitle} added to cart! (Placeholder - requires full implementation)`
+              );
+              // In a real app, this would add the item via JS/API call and update the main cart view + summary + icon count
+            });
+          });
+      });
+    </script>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Footer Top Section with Columns -->
+        <div class="footer-top">
+          <!-- Company Info Column -->
+          <div class="footer-column">
+            <div class="footer-logo">
+              <a href="index.html">Tech<span>Hub</span></a>
+            </div>
+            <p class="footer-description">
+              Your one-stop destination for premium computer hardware,
+              components, and tech accessories.
+            </p>
+            <div class="footer-social">
+              <a href="#" class="social-icon"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-icon"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+            </div>
+          </div>
+
+          <!-- Quick Links Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="faq.html">FAQs</a></li>
+              <li><a href="shipping.html">Shipping Info</a></li>
+              <li><a href="returns.html">Returns Policy</a></li>
+            </ul>
+          </div>
+
+          <!-- Products Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Products</h3>
+            <ul class="footer-links">
+              <li><a href="computers.html">Computers</a></li>
+              <li><a href="components.html">Components</a></li>
+              <li><a href="peripherals.html">Peripherals</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="deals.html">Special Deals</a></li>
+              <li><a href="new-arrivals.html">New Arrivals</a></li>
+            </ul>
+          </div>
+
+          <!-- My Account Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">My Account</h3>
+            <ul class="footer-links">
+              <li><a href="login.html">Login / Register</a></li>
+              <li><a href="my-account.html">My Profile</a></li>
+              <li><a href="orders.html">Order History</a></li>
+              <li><a href="wishlist.html">Wishlist</a></li>
+              <li><a href="track-order.html">Track Order</a></li>
+              <li><a href="support-tickets.html">Support Tickets</a></li>
+            </ul>
+          </div>
+
+          <!-- Newsletter Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Newsletter</h3>
+            <p class="footer-newsletter-text">
+              Subscribe to receive updates, access to exclusive deals, and more.
+            </p>
+            <form class="footer-newsletter-form">
+              <input
+                type="email"
+                class="newsletter-input"
+                placeholder="Enter your email"
+                aria-label="Email for newsletter"
+              />
+              <button type="submit" class="newsletter-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+            <p class="footer-newsletter-terms">
+              By subscribing you agree to our
+              <a href="terms.html">Terms & Conditions</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer Middle - Payment Methods -->
+        <div class="footer-middle">
+          <div class="payment-methods">
+            <h3 class="payment-title">Payment Methods</h3>
+            <div class="payment-icons">
+              <i class="fab fa-cc-visa"></i>
+              <i class="fab fa-cc-mastercard"></i>
+              <i class="fab fa-cc-amex"></i>
+              <i class="fab fa-cc-discover"></i>
+              <i class="fab fa-cc-paypal"></i>
+              <i class="fab fa-apple-pay"></i>
+              <i class="fab fa-google-pay"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom - Copyright -->
+        <div class="footer-bottom">
+          <div class="copyright">&copy; 2025 TechHub. All Rights Reserved.</div>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="sitemap.html">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+  </body>
+</html>

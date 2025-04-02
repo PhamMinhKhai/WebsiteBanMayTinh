@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechHub - Checkout</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .checkout-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .checkout-form {
+        flex: 1 1 650px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+      }
+
+      .order-summary {
+        flex: 1 1 350px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        align-self: flex-start;
+        position: sticky;
+        top: 20px;
+      }
+
+      .checkout-section {
+        margin-bottom: 30px;
+      }
+
+      .checkout-section h3 {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .form-group {
+        flex: 1 1 200px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #555;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 15px;
+      }
+
+      .form-control:focus {
+        border-color: #1a237e;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.2);
+      }
+
+      .checkout-btn {
+        width: 100%;
+        padding: 15px;
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 15px;
+      }
+
+      .checkout-btn:hover {
+        background-color: #229954;
+      }
+
+      .express-checkout {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .express-btn {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .paypal-btn {
+        background-color: #0070ba;
+        color: white;
+      }
+
+      .apple-pay-btn {
+        background-color: #000;
+        color: white;
+      }
+
+      .order-item {
+        display: flex;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .order-item-image {
+        width: 70px;
+        height: 70px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .order-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .order-item-details {
+        flex-grow: 1;
+      }
+
+      .order-item-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+        font-size: 0.9em;
+      }
+
+      .order-item-price {
+        font-weight: bold;
+        color: #e63946;
+      }
+
+      .order-item-quantity {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 1em;
+        color: #555;
+      }
+
+      .order-total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #333;
+        border-top: 1px solid #ccc;
+        padding-top: 15px;
+      }
+
+      .payment-methods {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .payment-method {
+        flex: 1 1 calc(33.333% - 10px);
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .payment-method.selected {
+        border-color: #1a237e;
+        background-color: rgba(26, 35, 126, 0.05);
+      }
+
+      .payment-method i {
+        font-size: 24px;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      .payment-details {
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .checkout-container {
+          flex-direction: column;
+        }
+
+        .order-summary {
+          position: relative;
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar (Same as cart.html) -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="logo">Tech<span>Hub</span></a>
+        <div class="mobile-toggle" id="mobile-toggle">☰</div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="computers.html">Computers ▾</a>
+            <div class="dropdown-content">
+              <a href="manHinh.html">Desktop PCs</a>
+              <a href="laptops.html">Laptops</a>
+              <a href="gaming.html">Gaming PCs</a>
+              <a href="workstations.html">Workstations</a>
+              <a href="mini-pcs.html">Mini PCs</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="components.html">Components ▾</a>
+            <div class="dropdown-content">
+              <a href="processors.html">Processors</a>
+              <a href="motherboards.html">Motherboards</a>
+              <a href="graphics-cards.html">Graphics Cards</a>
+              <a href="memory.html">Memory (RAM)</a>
+              <a href="storage.html">Storage</a>
+              <a href="power-supplies.html">Power Supplies</a>
+              <a href="cooling.html">Cooling</a>
+              <a href="cases.html">Cases</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="peripherals.html">Peripherals ▾</a>
+            <div class="dropdown-content">
+              <a href="manHinh.html">Monitors</a>
+              <a href="keyboards.html">Keyboards</a>
+              <a href="mice.html">Mice</a>
+              <a href="headsets.html">Headsets</a>
+              <a href="speakers.html">Speakers</a>
+            </div>
+          </li>
+          <li><a href="deals.html">Deals</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+
+        <!-- Icons for Search, Notifications, Account, and Cart -->
+        <div class="icons">
+          <div class="search-container">
+            <div class="search-bar">
+              <input
+                type="text"
+                class="search-input"
+                id="search-input"
+                placeholder="Search products..."
+                aria-label="Search"
+              />
+              <button class="search-btn" id="search-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+          </div>
+          <div class="icon notification-icon" id="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span class="notification-count">2</span>
+          </div>
+          <div class="icon" id="account-icon">
+            <a href="account.html">
+              <i class="fas fa-user" style="color: white"></i>
+            </a>
+          </div>
+          <div class="icon" id="cart-icon">
+            <a href="cart.html" style="color: inherit; text-decoration: none">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count">3</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Overlay for Modal or Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Checkout Container -->
+    <div class="checkout-container">
+      <!-- Checkout Form -->
+      <div class="checkout-form">
+        <h2>Checkout</h2>
+
+        <!-- Express Checkout Options -->
+        <div class="express-checkout">
+          <p>Express Checkout</p>
+          <button class="express-btn paypal-btn">
+            <i class="fab fa-paypal"></i> PayPal
+          </button>
+          <button class="express-btn apple-pay-btn">
+            <i class="fab fa-apple"></i> Apple Pay
+          </button>
+          <div class="divider">
+            <span>OR</span>
+          </div>
+        </div>
+
+        <!-- Shipping Address Section -->
+        <div class="checkout-section">
+          <h3>Shipping Address</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstname">First Name*</label>
+              <input type="text" id="firstname" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="lastname">Last Name*</label>
+              <input type="text" id="lastname" class="form-control" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address*</label>
+            <input type="email" id="email" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number*</label>
+            <input type="tel" id="phone" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="address">Street Address*</label>
+            <input type="text" id="address" class="form-control" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City*</label>
+              <input type="text" id="city" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="state">State/Province*</label>
+              <input type="text" id="state" class="form-control" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="country">Country*</label>
+            <select id="country" class="form-control" required>
+              <option value="">Select a country</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="UK">United Kingdom</option>
+              <!-- Add more countries as needed -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Additional Information Section -->
+        <div class="checkout-section">
+          <h3>Additional Information</h3>
+          <div class="form-group">
+            <label for="order-notes">Order Notes (Optional)</label>
+            <textarea
+              id="order-notes"
+              class="form-control"
+              rows="4"
+              placeholder="Notes about your order, e.g. special delivery instructions"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+
+        <div class="order-items">
+          <!-- Order Item 1 -->
+          <div class="order-item">
+            <div class="order-item-image">
+              <img
+                src="/img/815b3+qj0wL._AC_SL1500_.jpg"
+                alt="ASUS ROG Strix Gaming Laptop"
+              />
+            </div>
+            <div class="order-item-details">
+              <div class="order-item-title">
+                ASUS ROG Strix G15 Gaming Laptop
+              </div>
+              <div class="order-item-price">$1899.99</div>
+              <div class="order-item-quantity">Qty: 1</div>
+            </div>
+          </div>
+
+          <!-- Order Item 2 -->
+          <div class="order-item">
+            <div class="order-item-image">
+              <img
+                src="/img/81GyQ70aigL._AC_SL1500_.jpg"
+                alt="Samsung Odyssey G7 Monitor"
+              />
+            </div>
+            <div class="order-item-details">
+              <div class="order-item-title">
+                Samsung Odyssey G7 Gaming Monitor
+              </div>
+              <div class="order-item-price">$649.99</div>
+              <div class="order-item-quantity">Qty: 1</div>
+            </div>
+          </div>
+
+          <!-- Order Item 3 -->
+          <div class="order-item">
+            <div class="order-item-image">
+              <img
+                src="/img/81JPZdpeH+L._AC_SL1500_.jpg"
+                alt="Logitech G Pro X Keyboard"
+              />
+            </div>
+            <div class="order-item-details">
+              <div class="order-item-title">
+                Logitech G Pro X Mechanical Gaming Keyboard
+              </div>
+              <div class="order-item-price">$149.99</div>
+              <div class="order-item-quantity">Qty: 1</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-row cart-subtotal">
+          <span>Subtotal:</span>
+          <span id="checkout-subtotal">$2,699.97</span>
+        </div>
+        <div class="summary-row cart-shipping">
+          <span>Shipping:</span>
+          <span id="checkout-shipping">Free</span>
+        </div>
+        <div class="summary-row cart-tax">
+          <span>Estimated Tax:</span>
+          <span id="checkout-tax">$162.00</span>
+        </div>
+        <div class="order-total">
+          <span>Total:</span>
+          <span id="checkout-total">$2,861.97</span>
+        </div>
+
+        <button class="checkout-btn" id="place-order-btn">Place Order</button>
+
+        <div
+          class="terms-agreement"
+          style="
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #666;
+            text-align: center;
+          "
+        >
+          By placing your order, you agree to our
+          <a href="terms.html">Terms of Service</a> and
+          <a href="privacy.html">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer (Same as cart.html) -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Footer Top Section with Columns -->
+        <div class="footer-top">
+          <!-- Company Info Column -->
+          <div class="footer-column">
+            <div class="footer-logo">
+              <a href="index.html">Tech<span>Hub</span></a>
+            </div>
+            <p class="footer-description">
+              Your one-stop destination for premium computer hardware,
+              components, and tech accessories.
+            </p>
+            <div class="footer-social">
+              <a href="#" class="social-icon"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-icon"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+            </div>
+          </div>
+
+          <!-- Quick Links Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="faq.html">FAQs</a></li>
+              <li><a href="shipping.html">Shipping Info</a></li>
+              <li><a href="returns.html">Returns Policy</a></li>
+            </ul>
+          </div>
+
+          <!-- Products Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Products</h3>
+            <ul class="footer-links">
+              <li><a href="computers.html">Computers</a></li>
+              <li><a href="components.html">Components</a></li>
+              <li><a href="peripherals.html">Peripherals</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+              <li><a href="deals.html">Special Deals</a></li>
+              <li><a href="new-arrivals.html">New Arrivals</a></li>
+            </ul>
+          </div>
+
+          <!-- My Account Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">My Account</h3>
+            <ul class="footer-links">
+              <li><a href="login.html">Login / Register</a></li>
+              <li><a href="my-account.html">My Profile</a></li>
+              <li><a href="orders.html">Order History</a></li>
+              <li><a href="wishlist.html">Wishlist</a></li>
+              <li><a href="track-order.html">Track Order</a></li>
+              <li><a href="support-tickets.html">Support Tickets</a></li>
+            </ul>
+          </div>
+
+          <!-- Newsletter Column -->
+          <div class="footer-column">
+            <h3 class="footer-heading">Newsletter</h3>
+            <p class="footer-newsletter-text">
+              Subscribe to receive updates, access to exclusive deals, and more.
+            </p>
+            <form class="footer-newsletter-form">
+              <input
+                type="email"
+                class="newsletter-input"
+                placeholder="Enter your email"
+                aria-label="Email for newsletter"
+              />
+              <button type="submit" class="newsletter-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+            <p class="footer-newsletter-terms">
+              By subscribing you agree to our
+              <a href="terms.html">Terms & Conditions</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer Middle - Payment Methods -->
+        <div class="footer-middle">
+          <div class="payment-methods">
+            <h3 class="payment-title">Payment Methods</h3>
+            <div class="payment-icons">
+              <i class="fab fa-cc-visa"></i>
+              <i class="fab fa-cc-mastercard"></i>
+              <i class="fab fa-cc-amex"></i>
+              <i class="fab fa-cc-discover"></i>
+              <i class="fab fa-cc-paypal"></i>
+              <i class="fab fa-apple-pay"></i>
+              <i class="fab fa-google-pay"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom - Copyright -->
+        <div class="footer-bottom">
+          <div class="copyright">&copy; 2025 TechHub. All Rights Reserved.</div>
+          <div class="footer-bottom-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="sitemap.html">Sitemap</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Payment method selection
+        const paymentMethods = document.querySelectorAll(".payment-method");
+        const creditCardDetails = document.getElementById(
+          "credit-card-details"
+        );
+
+        paymentMethods.forEach((method) => {
+          method.addEventListener("click", function () {
+            // Remove selected class from all methods
+            paymentMethods.forEach((m) => m.classList.remove("selected"));
+            // Add selected class to clicked method
+            this.classList.add("selected");
+
+            // Show/hide payment details based on selection
+            const selectedMethod = this.getAttribute("data-method");
+            if (selectedMethod === "credit-card") {
+              creditCardDetails.style.display = "block";
+            } else {
+              creditCardDetails.style.display = "none";
+            }
+          });
+        });
+
+        // Place order button event
+        const placeOrderBtn = document.getElementById("place-order-btn");
+        placeOrderBtn.addEventListener("click", function () {
+          // Basic form validation
+          const requiredFields = document.querySelectorAll("[required]");
+          let isValid = true;
+
+          requiredFields.forEach((field) => {
+            if (!field.value.trim()) {
+              field.style.borderColor = "#e63946";
+              isValid = false;
+            } else {
+              field.style.borderColor = "#ddd";
+            }
+          });
+
+          if (isValid) {
+            // Submit order logic would go here
+            alert("Order placed successfully! Thank you for your purchase.");
+            // Normally would redirect to order confirmation page
+            // window.location.href = 'order-confirmation.html';
+          } else {
+            alert(
+              "Please fill in all required fields before placing your order."
+            );
+          }
+        });
+
+        // Toggle mobile menu and notification panel
+        const mobileToggle = document.getElementById("mobile-toggle");
+        const navLinks = document.getElementById("nav-links");
+        const overlay = document.getElementById("overlay");
+        const notificationIcon = document.getElementById("notification-icon");
+        const notificationPanel = document.getElementById("notification-panel");
+
+        mobileToggle?.addEventListener("click", function () {
+          navLinks.classList.toggle("active");
+          overlay.classList.toggle("active");
+        });
+
+        notificationIcon?.addEventListener("click", function () {
+          notificationPanel?.classList.toggle("active");
+          overlay.classList.toggle("active");
+        });
+
+        overlay?.addEventListener("click", function () {
+          navLinks.classList.remove("active");
+          notificationPanel?.classList.remove("active");
+          overlay.classList.remove("active");
+        });
+
+        // Back to top button
+        const backToTopBtn = document.getElementById("back-to-top");
+        window.addEventListener("scroll", function () {
+          if (window.pageYOffset > 300) {
+            backToTopBtn.style.display = "block";
+          } else {
+            backToTopBtn.style.display = "none";
+          }
+        });
+
+        backToTopBtn.addEventListener("click", function () {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+    </script>
+  </body>
+</html>

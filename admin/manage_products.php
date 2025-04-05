@@ -38,12 +38,19 @@ if (isset($_POST['delete_product']) && isset($_POST['product_id'])) {
     exit();
 }
 
-// Fetch all products with their main images
-$sql = "SELECT p.*, pi.image_path 
-        FROM products p 
-        LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_main = 1 
-        ORDER BY p.created_at DESC";
+// Enable error logging for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Don't display errors to users
+ini_set('log_errors', 1);
+error_log("Starting product fetch in manage_products.php");
+
+// Fetch all products
+$sql = "SELECT * FROM products ORDER BY created_at DESC";
 $result = $conn->query($sql);
+
+if (!$result) {
+    error_log("Database query error: " . $conn->error);
+}
 
 // Count total products
 $total_products = $result ? $result->num_rows : 0;
@@ -596,17 +603,37 @@ if ($result && $result->num_rows > 0) {
                                     <?php while($row = $result->fetch_assoc()): ?>
                                     <tr>
                                         <td>
-                                            <?php if ($row['image_path'] && file_exists('../' . $row['image_path'])): ?>
-                                                <img src="<?php echo htmlspecialchars('../' . $row['image_path']); ?>" 
-                                                     alt="<?php echo htmlspecialchars($row['name']); ?>" 
-                                                     class="product-image"
-                                                     onerror="this.onerror=null; this.src='../assets/images/no-image.png';">
-                                            <?php else: ?>
+                                            <?php
+                                            $has_image = false;
+                                            if (!empty($row['images'])) {
+                                                $images = json_decode($row['images'], true);
+                                                error_log("Product ID: " . $row['id'] . " - Images JSON: " . $row['images']);
+
+                                                if (is_array($images) && count($images) > 0) {
+                                                    $main_image = '../' . $images[0]; // First image is the main one
+                                                    error_log("Product ID: " . $row['id'] . " - Main image path: " . $main_image);
+
+                                                    // Try to check if file exists, but don't rely solely on this check
+                                                    $file_check = @file_exists($main_image);
+                                                    error_log("Product ID: " . $row['id'] . " - File exists check: " . ($file_check ? 'true' : 'false'));
+
+                                                    // Always show image tag, let browser handle missing images with onerror
+                                                    $has_image = true;
+                                                    ?>
+                                                    <img src="<?php echo htmlspecialchars($main_image); ?>"
+                                                         alt="<?php echo htmlspecialchars($row['name']); ?>"
+                                                         class="product-image"
+                                                         onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'product-image-placeholder\'><i class=\'fas fa-image\'></i><span>No Image</span></div>';">
+                                                    <?php
+                                                }
+                                            }
+
+                                            if (!$has_image) { ?>
                                                 <div class="product-image-placeholder">
                                                     <i class="fas fa-image"></i>
                                                     <span>No Image</span>
                                                 </div>
-                                            <?php endif; ?>
+                                            <?php } ?>
                                         </td>
                                         <td><div class="font-weight-medium"><?php echo htmlspecialchars($row['name']); ?></div></td>
                                         <td><span class="category-badge"><?php echo htmlspecialchars($row['category']); ?></span></td>

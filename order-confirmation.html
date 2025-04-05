@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation - TechHub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .order-confirmation {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .order-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .order-header i {
+        color: #4caf50;
+        font-size: 48px;
+        margin-bottom: 15px;
+      }
+
+      .order-header h1 {
+        margin: 0;
+        color: #333;
+        font-size: 28px;
+      }
+
+      .order-header p {
+        color: #666;
+        margin: 10px 0 0;
+      }
+
+      .order-details {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+      }
+
+      .order-info,
+      .customer-info {
+        flex: 1;
+        min-width: 250px;
+        padding: 0 15px;
+      }
+
+      .order-info h3,
+      .customer-info h3 {
+        color: #1a237e;
+        margin-top: 0;
+        font-size: 18px;
+      }
+
+      .info-group {
+        margin-bottom: 20px;
+      }
+
+      .info-label {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      .info-value {
+        color: #333;
+      }
+
+      .order-items {
+        margin-top: 30px;
+      }
+
+      .order-items h3 {
+        color: #1a237e;
+        margin-top: 0;
+        font-size: 18px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .item-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      .item-table th {
+        background-color: #f5f5f5;
+        padding: 12px;
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .item-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        color: #555;
+      }
+
+      .item-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .item-name {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .item-specs {
+        font-size: 0.9em;
+        color: #777;
+        margin-top: 5px;
+      }
+
+      .order-summary {
+        margin-top: 30px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+      }
+
+      .summary-label {
+        color: #555;
+      }
+
+      .summary-value {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .total-row {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+        font-size: 1.2em;
+      }
+
+      .total-row .summary-label {
+        color: #333;
+        font-weight: bold;
+      }
+
+      .total-row .summary-value {
+        color: #1a237e;
+      }
+
+      .actions {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .action-btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #1a237e;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        text-decoration: none;
+        margin: 0 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .action-btn:hover {
+        background-color: #0e1859;
+      }
+
+      .action-btn.secondary {
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      .action-btn.secondary:hover {
+        background-color: #e0e0e0;
+      }
+
+      .not-found {
+        text-align: center;
+        padding: 50px 20px;
+      }
+
+      .not-found i {
+        font-size: 60px;
+        color: #f44336;
+        margin-bottom: 20px;
+      }
+
+      .not-found h2 {
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .not-found p {
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .order-confirmation {
+          padding: 20px;
+          margin: 20px;
+        }
+
+        .order-info,
+        .customer-info {
+          flex: 100%;
+          padding: 0;
+          margin-bottom: 20px;
+        }
+
+        .item-table {
+          font-size: 0.9em;
+        }
+
+        .item-image {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header class="header">
+      <div class="header-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+          <div class="contact-info">
+            <span><i class="fas fa-phone-alt"></i> +1 (123) 456-7890</span>
+            <span><i class="fas fa-envelope"></i> support@techhub.com</span>
+          </div>
+          <div class="top-links">
+            <a href="#"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
+            <a href="#"><i class="fas fa-truck"></i> Order Tracking</a>
+          </div>
+        </div>
+
+        <!-- Main Header -->
+        <div class="main-header">
+          <div class="logo">
+            <a href="index.html">
+              <img src="logo.png" alt="TechHub Logo" />
+              <span>TechHub</span>
+            </a>
+          </div>
+
+          <div class="search-bar">
+            <form action="#" method="get">
+              <input
+                type="text"
+                placeholder="Search for products..."
+                name="search"
+              />
+              <button type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
+          </div>
+
+          <div class="header-actions">
+            <div class="action-item">
+              <a href="#" class="action-link">
+                <i class="fas fa-user"></i>
+                <span class="action-text">Account</span>
+              </a>
+              <div class="dropdown-menu">
+                <a href="#">Sign In</a>
+                <a href="#">Register</a>
+                <a href="#">My Orders</a>
+                <a href="#">My Wishlist</a>
+              </div>
+            </div>
+            <div class="action-item">
+              <a href="#" class="action-link">
+                <i class="fas fa-heart"></i>
+                <span class="action-text">Wishlist</span>
+                <span class="wishlist-count">0</span>
+              </a>
+            </div>
+            <div class="action-item">
+              <a href="cart.html" class="action-link">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="action-text">Cart</span>
+                <span class="cart-count">0</span>
+              </a>
+            </div>
+          </div>
+
+          <button class="mobile-toggle" id="mobile-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+          <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="has-dropdown">
+              <a href="#">Products <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu mega-menu">
+                <div class="mega-menu-content">
+                  <div class="menu-column">
+                    <h3>Computer Components</h3>
+                    <ul>
+                      <li><a href="Processors.html">Processors</a></li>
+                      <li><a href="#">Motherboards</a></li>
+                      <li><a href="#">Memory</a></li>
+                      <li><a href="#">Graphics Cards</a></li>
+                      <li><a href="#">Storage</a></li>
+                      <li><a href="#">Power Supplies</a></li>
+                      <li><a href="#">Cases</a></li>
+                      <li><a href="#">Cooling</a></li>
+                    </ul>
+                  </div>
+                  <div class="menu-column">
+                    <h3>Peripherals</h3>
+                    <ul>
+                      <li><a href="#">Monitors</a></li>
+                      <li><a href="#">Keyboards</a></li>
+                      <li><a href="#">Mice</a></li>
+                      <li><a href="#">Headsets</a></li>
+                      <li><a href="#">Speakers</a></li>
+                      <li><a href="#">Webcams</a></li>
+                      <li><a href="#">Printers</a></li>
+                    </ul>
+                  </div>
+                  <div class="menu-column">
+                    <h3>Computers</h3>
+                    <ul>
+                      <li><a href="#">Gaming PCs</a></li>
+                      <li><a href="#">Workstations</a></li>
+                      <li><a href="#">Laptops</a></li>
+                      <li><a href="#">Mini PCs</a></li>
+                      <li><a href="#">All-in-One PCs</a></li>
+                      <li><a href="#">Servers</a></li>
+                    </ul>
+                  </div>
+                  <div class="menu-column">
+                    <h3>Featured</h3>
+                    <div class="featured-item">
+                      <img
+                        src="/api/placeholder/200/150"
+                        alt="Featured Product"
+                      />
+                      <h4>Build Your PC</h4>
+                      <p>Custom PC Builder Tool</p>
+                      <a href="#" class="featured-link">Start Building</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li><a href="#">Deals</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="separator">/</span>
+          <a href="cart.html">Cart</a>
+          <span class="separator">/</span>
+          <span class="current">Order Confirmation</span>
+        </div>
+
+        <div id="order-confirmation-container">
+          <!-- Order content will be loaded here by JavaScript -->
+          <div class="loading-indicator">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading order information...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <div class="footer-container">
+        <!-- Footer Top Section with Columns -->
+        <div class="footer-top">
+          <div class="footer-column">
+            <h3>About TechHub</h3>
+            <p>
+              TechHub is your one-stop shop for all computer hardware needs. We
+              offer the latest components, peripherals, and custom PC builds at
+              competitive prices.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h3>Customer Service</h3>
+            <ul>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Shipping & Returns</a></li>
+              <li><a href="#">Warranty Information</a></li>
+              <li><a href="#">Product Support</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Information</h3>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Newsletter</h3>
+            <p>
+              Subscribe to our newsletter to receive updates and exclusive
+              offers.
+            </p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Your email address" required />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Footer Bottom Section -->
+        <div class="footer-bottom">
+          <div class="payment-methods">
+            <span>Payment Methods:</span>
+            <img src="/api/placeholder/300/30" alt="Payment Methods" />
+          </div>
+          <div class="copyright">&copy; 2023 TechHub. All rights reserved.</div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="cart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get order number from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderNumber = urlParams.get("order");
+
+        if (!orderNumber) {
+          showOrderNotFound();
+          return;
+        }
+
+        // Try to get order from localStorage first (as a fallback)
+        const orders = JSON.parse(
+          localStorage.getItem("techHubOrders") || "[]"
+        );
+        const order = orders.find((o) => o.orderNumber === orderNumber);
+
+        if (order) {
+          displayOrder(order);
+        } else {
+          // If not in localStorage, try to fetch from server
+          fetchOrderFromServer(orderNumber);
+        }
+      });
+
+      function fetchOrderFromServer(orderNumber) {
+        fetch(`get_order.php?order_number=${orderNumber}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success && data.order) {
+              displayOrder(data.order);
+            } else {
+              showOrderNotFound();
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching order:", error);
+            showOrderNotFound();
+          });
+      }
+
+      function displayOrder(order) {
+        const container = document.getElementById(
+          "order-confirmation-container"
+        );
+
+        // Format date
+        const orderDate = new Date(order.orderDate);
+        const formattedDate = orderDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
+        // Format currency
+        const formatCurrency = (amount) => {
+          return (
+            "$" +
+            parseFloat(amount)
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+          );
+        };
+
+        // Create HTML content
+        let html = `
+          <div class="order-confirmation">
+            <div class="order-header">
+              <i class="fas fa-check-circle"></i>
+              <h1>Thank You for Your Order!</h1>
+              <p>Your order has been received and is now being processed.</p>
+            </div>
+            
+            <div class="order-details">
+              <div class="order-info">
+                <h3>Order Information</h3>
+                <div class="info-group">
+                  <span class="info-label">Order Number:</span>
+                  <span class="info-value">${order.orderNumber}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date:</span>
+                  <span class="info-value">${formattedDate}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Payment Method:</span>
+                  <span class="info-value">Credit Card</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Status:</span>
+                  <span class="info-value">Processing</span>
+                </div>
+              </div>
+              
+              <div class="customer-info">
+                <h3>Customer Information</h3>
+                <div class="info-group">
+                  <span class="info-label">Name:</span>
+                  <span class="info-value">${order.customer.firstName} ${order.customer.lastName}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Email:</span>
+                  <span class="info-value">${order.customer.email}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Phone:</span>
+                  <span class="info-value">${order.customer.phone}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Shipping Address:</span>
+                  <span class="info-value">
+                    ${order.customer.address}<br>
+                    ${order.customer.city}, ${order.customer.state}<br>
+                    ${order.customer.country}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="order-items">
+              <h3>Order Items</h3>
+              <table class="item-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+        `;
+
+        // Add each item
+        order.items.forEach((item) => {
+          const itemTotal = item.price * item.quantity;
+          html += `
+            <tr>
+              <td>
+                <div class="item-info">
+                  <div class="item-name">${item.name}</div>
+                  <div class="item-specs">${item.specs || ""}</div>
+                </div>
+              </td>
+              <td>${formatCurrency(item.price)}</td>
+              <td>${item.quantity}</td>
+              <td>${formatCurrency(itemTotal)}</td>
+            </tr>
+          `;
+        });
+
+        html += `
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="order-summary">
+              <div class="summary-row">
+                <span class="summary-label">Subtotal:</span>
+                <span class="summary-value">${formatCurrency(
+                  order.subtotal
+                )}</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">Shipping:</span>
+                <span class="summary-value">${
+                  order.shipping === 0 ? "Free" : formatCurrency(order.shipping)
+                }</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">Tax:</span>
+                <span class="summary-value">${formatCurrency(order.tax)}</span>
+              </div>
+              <div class="summary-row total-row">
+                <span class="summary-label">Total:</span>
+                <span class="summary-value">${formatCurrency(
+                  order.total
+                )}</span>
+              </div>
+            </div>
+            
+            <div class="actions">
+              <a href="index.html" class="action-btn secondary">Continue Shopping</a>
+              <a href="#" class="action-btn" onclick="window.print(); return false;">Print Order</a>
+            </div>
+          </div>
+        `;
+
+        container.innerHTML = html;
+      }
+
+      function showOrderNotFound() {
+        const container = document.getElementById(
+          "order-confirmation-container"
+        );
+
+        container.innerHTML = `
+          <div class="order-confirmation not-found">
+            <i class="fas fa-exclamation-circle"></i>
+            <h2>Order Not Found</h2>
+            <p>We couldn't find the order you're looking for. Please check the order number and try again.</p>
+            <a href="index.html" class="action-btn">Return to Home</a>
+          </div>
+        `;
+      }
+    </script>
+  </body>
+</html>

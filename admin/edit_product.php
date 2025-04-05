@@ -443,9 +443,18 @@ while ($feature = $features_result->fetch_assoc()) {
                         <?php if (count($images) > 0): ?>
                             <?php foreach($images as $image): ?>
                                 <div class="preview-item">
-                                    <img src="<?php echo '../' . htmlspecialchars($image['image_path']); ?>" 
-                                         alt="Product image" 
-                                         onerror="this.onerror=null; this.src='../assets/images/no-image.png';">
+                                    <?php
+                                        $image_path = '../' . $image['image_path'];
+                                        if (file_exists($image_path)):
+                                    ?>
+                                        <img src="<?php echo htmlspecialchars($image_path); ?>"
+                                             alt="Product image">
+                                    <?php else: ?>
+                                        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f8f9fa;">
+                                            <i class="fas fa-image" style="font-size:22px;margin-bottom:4px;color:#6c757d;"></i>
+                                            <span style="font-size:11px;color:#6c757d;">No Image</span>
+                                        </div>
+                                    <?php endif; ?>
                                     <?php if ($image['is_main']): ?>
                                         <span class="main-image-badge">Main</span>
                                     <?php endif; ?>

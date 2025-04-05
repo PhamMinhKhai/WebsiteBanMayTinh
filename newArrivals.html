@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Arrivals - TechHub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Styles for New Arrivals page */
+      .new-arrivals-banner {
+        background: linear-gradient(135deg, #2563eb, #8b5cf6);
+        color: white;
+        text-align: center;
+        padding: 50px 20px;
+        margin-bottom: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      .new-arrivals-banner h1 {
+        font-size: 2.75rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        letter-spacing: -0.025em;
+      }
+
+      .new-arrivals-banner p {
+        font-size: 1.25rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+        opacity: 0.9;
+      }
+
+      .product-container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .filter-sidebar {
+        width: 25%;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .filter-section {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 15px;
+      }
+
+      .filter-section:last-child {
+        border-bottom: none;
+      }
+
+      .filter-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .filter-content {
+        margin-top: 10px;
+      }
+
+      .filter-option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .filter-option input {
+        margin-right: 8px;
+      }
+
+      .filter-option label {
+        font-size: 14px;
+        color: #4b5563;
+      }
+
+      .price-range {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .price-input {
+        width: 80px;
+        padding: 5px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+      }
+
+      .products-grid {
+        width: 75%;
+      }
+
+      .products-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .products-count {
+        font-size: 14px;
+        color: #6b7280;
+      }
+
+      .sort-filter {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sort-select {
+        padding: 8px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      .view-options {
+        display: flex;
+        gap: 5px;
+      }
+
+      .view-option {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        background-color: white;
+        cursor: pointer;
+      }
+
+      .view-option.active {
+        background-color: #f3f4f6;
+        color: #2563eb;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .filter-mobile-toggle {
+        display: none;
+        font-weight: 600;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        background-color: #f3f4f6;
+        border-radius: 6px;
+        width: 100%;
+        text-align: left;
+        border: 1px solid #d1d5db;
+      }
+
+      .filter-mobile-toggle i {
+        float: right;
+        margin-top: 3px;
+      }
+
+      .active-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .filter-tag {
+        background-color: #e5e7eb;
+        border-radius: 16px;
+        padding: 5px 10px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      .filter-tag i {
+        margin-left: 5px;
+        cursor: pointer;
+      }
+
+      .clear-all {
+        font-size: 12px;
+        color: #4b5563;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+        gap: 5px;
+      }
+
+      .pagination-item {
+        min-width: 36px;
+        height: 36px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .pagination-item.active {
+        background-color: #2563eb;
+        color: white;
+        border-color: #2563eb;
+      }
+
+      .pagination-item:hover:not(.active) {
+        background-color: #f3f4f6;
+      }
+
+      @media (max-width: 768px) {
+        .product-container {
+          flex-direction: column;
+        }
+
+        .filter-sidebar {
+          width: 100%;
+          margin-bottom: 20px;
+          display: none;
+        }
+
+        .products-grid {
+          width: 100%;
+        }
+
+        .filter-mobile-toggle {
+          display: block;
+        }
+
+        .product-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .product-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .products-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .sort-filter {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Include header -->
+    <script>
+      fetch("header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.body.insertAdjacentHTML("afterbegin", data);
+        });
+    </script>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- New Arrivals Banner -->
+      <div class="container">
+        <div class="new-arrivals-banner">
+          <h1>New Arrivals</h1>
+          <p>
+            Discover the latest additions to our tech collection. Be the first
+            to get your hands on cutting-edge technology and stay ahead of the
+            curve.
+          </p>
+        </div>
+
+        <div class="product-container">
+          <!-- Filter Sidebar -->
+          <button class="filter-mobile-toggle" id="filter-toggle">
+            Filters <i class="fas fa-sliders-h"></i>
+          </button>
+
+          <div class="filter-sidebar" id="filter-sidebar">
+            <!-- Active Filters -->
+            <div class="active-filters" id="active-filters">
+              <!-- Active filters will be added here dynamically -->
+            </div>
+
+            <!-- Category Filter -->
+            <div class="filter-section">
+              <div class="filter-title">
+                Categories <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="filter-content">
+                <div class="filter-option">
+                  <input type="checkbox" id="cat-computers" value="computers" />
+                  <label for="cat-computers">Computers</label>
+                </div>
+                <div class="filter-option">
+                  <input
+                    type="checkbox"
+                    id="cat-components"
+                    value="components"
+                  />
+                  <label for="cat-components">Components</label>
+                </div>
+                <div class="filter-option">
+                  <input
+                    type="checkbox"
+                    id="cat-peripherals"
+                    value="peripherals"
+                  />
+                  <label for="cat-peripherals">Peripherals</label>
+                </div>
+                <div class="filter-option">
+                  <input
+                    type="checkbox"
+                    id="cat-accessories"
+                    value="accessories"
+                  />
+                  <label for="cat-accessories">Accessories</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Brand Filter -->
+            <div class="filter-section">
+              <div class="filter-title">
+                Brands <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="filter-content">
+                <div class="filter-option">
+                  <input type="checkbox" id="brand-asus" value="asus" />
+                  <label for="brand-asus">ASUS</label>
+                </div>
+                <div class="filter-option">
+                  <input type="checkbox" id="brand-msi" value="msi" />
+                  <label for="brand-msi">MSI</label>
+                </div>
+                <div class="filter-option">
+                  <input type="checkbox" id="brand-gigabyte" value="gigabyte" />
+                  <label for="brand-gigabyte">Gigabyte</label>
+                </div>
+                <div class="filter-option">
+                  <input type="checkbox" id="brand-nvidia" value="nvidia" />
+                  <label for="brand-nvidia">NVIDIA</label>
+                </div>
+                <div class="filter-option">
+                  <input type="checkbox" id="brand-amd" value="amd" />
+                  <label for="brand-amd">AMD</label>
+                </div>
+                <div class="filter-option">
+                  <input type="checkbox" id="brand-intel" value="intel" />
+                  <label for="brand-intel">Intel</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="filter-section">
+              <div class="filter-title">
+                Price Range <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="filter-content">
+                <div class="price-range">
+                  <input
+                    type="number"
+                    id="min-price"
+                    class="price-input"
+                    placeholder="Min"
+                    min="0"
+                  />
+                  <span>to</span>
+                  <input
+                    type="number"
+                    id="max-price"
+                    class="price-input"
+                    placeholder="Max"
+                    min="0"
+                  />
+                </div>
+                <button
+                  id="apply-price"
+                  class="btn btn-primary btn-sm w-100 mt-2"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+
+            <!-- Arrival Date Filter -->
+            <div class="filter-section">
+              <div class="filter-title">
+                Arrival Date <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="filter-content">
+                <div class="filter-option">
+                  <input
+                    type="radio"
+                    name="arrival-date"
+                    id="arrival-7days"
+                    value="7"
+                  />
+                  <label for="arrival-7days">Last 7 days</label>
+                </div>
+                <div class="filter-option">
+                  <input
+                    type="radio"
+                    name="arrival-date"
+                    id="arrival-30days"
+                    value="30"
+                  />
+                  <label for="arrival-30days">Last 30 days</label>
+                </div>
+                <div class="filter-option">
+                  <input
+                    type="radio"
+                    name="arrival-date"
+                    id="arrival-90days"
+                    value="90"
+                  />
+                  <label for="arrival-90days">Last 90 days</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Grid -->
+          <div class="products-grid">
+            <div class="products-header">
+              <div class="products-count">
+                Showing <span id="product-count">0</span> products
+              </div>
+              <div class="sort-filter">
+                <div class="sort-by">
+                  <select id="sort-select" class="sort-select">
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                    <option value="name-desc">Name: Z to A</option>
+                  </select>
+                </div>
+                <div class="view-options">
+                  <button class="view-option active" id="grid-view">
+                    <i class="fas fa-th"></i>
+                  </button>
+                  <button class="view-option" id="list-view">
+                    <i class="fas fa-list"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-grid" id="product-grid">
+              <!-- Products will be loaded dynamically -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+              <!-- Pagination will be added dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Include footer -->
+    <script>
+      fetch("footer.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.body.insertAdjacentHTML("beforeend", data);
+        });
+    </script>
+
+    <script>
+      // Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile filter toggle
+        const filterToggle = document.getElementById("filter-toggle");
+        const filterSidebar = document.getElementById("filter-sidebar");
+
+        if (filterToggle && filterSidebar) {
+          filterToggle.addEventListener("click", () => {
+            filterSidebar.style.display =
+              filterSidebar.style.display === "block" ? "none" : "block";
+          });
+        }
+
+        // View options toggle
+        const gridView = document.getElementById("grid-view");
+        const listView = document.getElementById("list-view");
+        const productGrid = document.getElementById("product-grid");
+
+        if (gridView && listView && productGrid) {
+          gridView.addEventListener("click", () => {
+            gridView.classList.add("active");
+            listView.classList.remove("active");
+            productGrid.classList.remove("list-view");
+          });
+
+          listView.addEventListener("click", () => {
+            listView.classList.add("active");
+            gridView.classList.remove("active");
+            productGrid.classList.add("list-view");
+          });
+        }
+
+        // Initialize and load products
+        loadProducts();
+
+        // Setup filter event listeners
+        setupFilters();
+      });
+
+      // Load products function
+      function loadProducts(page = 1, filters = {}) {
+        const queryParams = new URLSearchParams({
+          features: "new", // Filter for new products
+          page: page,
+          per_page: 12,
+          ...filters,
+        });
+
+        fetch(`get_products.php?${queryParams}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.success) {
+              if (data.products && data.products.length > 0) {
+                displayProducts(data.products);
+                updatePagination(data.pagination);
+                document.getElementById("product-count").textContent =
+                  data.pagination.total;
+              } else {
+                const productGrid = document.querySelector(".product-grid");
+                productGrid.innerHTML =
+                  '<div class="no-products">No new products found</div>';
+                document.getElementById("product-count").textContent = "0";
+              }
+            } else {
+              console.error("Error loading products:", data.message);
+              const productGrid = document.querySelector(".product-grid");
+              productGrid.innerHTML = `<div class="error-message">Error loading products: ${data.message}</div>`;
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching products:", error);
+            const productGrid = document.querySelector(".product-grid");
+            productGrid.innerHTML = `<div class="error-message">Error loading products. Please try again later.</div>`;
+          });
+      }
+
+      // Display products function
+      function displayProducts(products) {
+        const productGrid = document.querySelector(".product-grid");
+        if (!productGrid) {
+          console.error("Product grid element not found");
+          return;
+        }
+
+        productGrid.innerHTML = "";
+
+        products.forEach((product) => {
+          const productCard = createProductCard(product);
+          productGrid.appendChild(productCard);
+        });
+      }
+
+      // Create product card function
+      function createProductCard(product) {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        // Add click handler to the entire card
+        card.onclick = () => {
+          window.location.href = `detailProduct.html?id=${encodeURIComponent(
+            product.id
+          )}`;
+        };
+
+        // Add product badge if it's new
+        if (product.features && product.features.includes("new")) {
+          const badge = document.createElement("div");
+          badge.className = "product-badge new-badge";
+          badge.textContent = "New";
+          card.appendChild(badge);
+        }
+
+        // Add sale badge if price is discounted
+        if (product.sale_price && product.sale_price < product.regular_price) {
+          const discount = Math.round(
+            ((product.regular_price - product.sale_price) /
+              product.regular_price) *
+              100
+          );
+          const badge = document.createElement("div");
+          badge.className = "product-badge sale-badge";
+          badge.textContent = `Sale -${discount}%`;
+          card.appendChild(badge);
+        }
+
+        // Create product image container
+        const imageContainer = document.createElement("div");
+        imageContainer.className = "product-image";
+
+        // Add main product image
+        const img = document.createElement("img");
+        img.src =
+          product.images && product.images.length > 0
+            ? product.images[0]
+            : "/api/placeholder/240/180";
+        img.alt = product.name;
+        imageContainer.appendChild(img);
+
+        // Add product actions
+        const actions = document.createElement("div");
+        actions.className = "product-actions";
+
+        // Add quick view button
+        const quickViewBtn = document.createElement("button");
+        quickViewBtn.className = "quick-view";
+        quickViewBtn.title = "Quick View";
+        quickViewBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        quickViewBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Implement quick view functionality
+        });
+        actions.appendChild(quickViewBtn);
+
+        // Add wishlist button
+        const wishlistBtn = document.createElement("button");
+        wishlistBtn.className = "add-to-wishlist";
+        wishlistBtn.title = "Add to Wishlist";
+        wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>';
+        wishlistBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Implement wishlist functionality
+        });
+        actions.appendChild(wishlistBtn);
+
+        // Add compare button
+        const compareBtn = document.createElement("button");
+        compareBtn.className = "add-to-compare";
+        compareBtn.title = "Compare";
+        compareBtn.innerHTML = '<i class="fas fa-exchange-alt"></i>';
+        compareBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Implement compare functionality
+        });
+        actions.appendChild(compareBtn);
+
+        imageContainer.appendChild(actions);
+        card.appendChild(imageContainer);
+
+        // Create product info container
+        const infoContainer = document.createElement("div");
+        infoContainer.className = "product-info";
+
+        // Add product category
+        const category = document.createElement("div");
+        category.className = "product-category";
+        category.textContent = product.category || "";
+        infoContainer.appendChild(category);
+
+        // Add product name
+        const name = document.createElement("h3");
+        name.className = "product-name";
+        const nameLink = document.createElement("a");
+        nameLink.href = `detailProduct.html?id=${encodeURIComponent(
+          product.id
+        )}`;
+        nameLink.textContent = product.name;
+        name.appendChild(nameLink);
+        infoContainer.appendChild(name);
+
+        // Add product ratings
+        const ratings = document.createElement("div");
+        ratings.className = "product-ratings";
+        const rating = product.rating || 0;
+        for (let i = 1; i <= 5; i++) {
+          const star = document.createElement("i");
+          if (i <= rating) {
+            star.className = "fas fa-star";
+          } else if (i - 0.5 <= rating) {
+            star.className = "fas fa-star-half-alt";
+          } else {
+            star.className = "far fa-star";
+          }
+          ratings.appendChild(star);
+        }
+        const ratingCount = document.createElement("span");
+        ratingCount.className = "rating-count";
+        ratingCount.textContent = `(${product.rating_count || 0})`;
+        ratings.appendChild(ratingCount);
+        infoContainer.appendChild(ratings);
+
+        // Add product price
+        const price = document.createElement("div");
+        price.className = "product-price";
+        const currentPrice = document.createElement("span");
+        currentPrice.className = "current-price";
+        currentPrice.textContent = `$${(
+          product.sale_price || product.regular_price
+        ).toFixed(2)}`;
+        price.appendChild(currentPrice);
+
+        if (product.sale_price && product.sale_price < product.regular_price) {
+          const oldPrice = document.createElement("span");
+          oldPrice.className = "old-price";
+          oldPrice.textContent = `$${product.regular_price.toFixed(2)}`;
+          price.appendChild(oldPrice);
+        }
+        infoContainer.appendChild(price);
+
+        // Add to cart button
+        const addToCartBtn = document.createElement("button");
+        addToCartBtn.className = "add-to-cart-btn";
+        addToCartBtn.innerHTML =
+          '<i class="fas fa-shopping-cart"></i> Add to Cart';
+        addToCartBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Implement add to cart functionality
+        });
+        infoContainer.appendChild(addToCartBtn);
+
+        card.appendChild(infoContainer);
+        return card;
+      }
+
+      // Update pagination function
+      function updatePagination(paginationData) {
+        const paginationContainer = document.getElementById("pagination");
+        if (!paginationContainer) return;
+
+        paginationContainer.innerHTML = "";
+
+        const { current_page, total_pages } = paginationData;
+
+        // Previous button
+        if (current_page > 1) {
+          const prevBtn = document.createElement("button");
+          prevBtn.className = "pagination-item";
+          prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+          prevBtn.addEventListener("click", () => {
+            loadProducts(current_page - 1, getActiveFilters());
+          });
+          paginationContainer.appendChild(prevBtn);
+        }
+
+        // Page numbers
+        const startPage = Math.max(1, current_page - 2);
+        const endPage = Math.min(total_pages, current_page + 2);
+
+        if (startPage > 1) {
+          const firstPage = document.createElement("button");
+          firstPage.className = "pagination-item";
+          firstPage.textContent = "1";
+          firstPage.addEventListener("click", () => {
+            loadProducts(1, getActiveFilters());
+          });
+          paginationContainer.appendChild(firstPage);
+
+          if (startPage > 2) {
+            const ellipsis = document.createElement("span");
+            ellipsis.className = "pagination-item";
+            ellipsis.textContent = "...";
+            paginationContainer.appendChild(ellipsis);
+          }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          const pageBtn = document.createElement("button");
+          pageBtn.className = `pagination-item ${
+            i === current_page ? "active" : ""
+          }`;
+          pageBtn.textContent = i.toString();
+          pageBtn.addEventListener("click", () => {
+            if (i !== current_page) {
+              loadProducts(i, getActiveFilters());
+            }
+          });
+          paginationContainer.appendChild(pageBtn);
+        }
+
+        if (endPage < total_pages) {
+          if (endPage < total_pages - 1) {
+            const ellipsis = document.createElement("span");
+            ellipsis.className = "pagination-item";
+            ellipsis.textContent = "...";
+            paginationContainer.appendChild(ellipsis);
+          }
+
+          const lastPage = document.createElement("button");
+          lastPage.className = "pagination-item";
+          lastPage.textContent = total_pages.toString();
+          lastPage.addEventListener("click", () => {
+            loadProducts(total_pages, getActiveFilters());
+          });
+          paginationContainer.appendChild(lastPage);
+        }
+
+        // Next button
+        if (current_page < total_pages) {
+          const nextBtn = document.createElement("button");
+          nextBtn.className = "pagination-item";
+          nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+          nextBtn.addEventListener("click", () => {
+            loadProducts(current_page + 1, getActiveFilters());
+          });
+          paginationContainer.appendChild(nextBtn);
+        }
+      }
+
+      // Setup filters function
+      function setupFilters() {
+        // Sort select change event
+        const sortSelect = document.getElementById("sort-select");
+        if (sortSelect) {
+          sortSelect.addEventListener("change", () => {
+            loadProducts(1, getActiveFilters());
+          });
+        }
+
+        // Price range filter
+        const applyPriceBtn = document.getElementById("apply-price");
+        if (applyPriceBtn) {
+          applyPriceBtn.addEventListener("click", () => {
+            loadProducts(1, getActiveFilters());
+          });
+        }
+
+        // Category and brand checkboxes
+        const checkboxes = document.querySelectorAll(
+          '.filter-option input[type="checkbox"]'
+        );
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", () => {
+            loadProducts(1, getActiveFilters());
+          });
+        });
+
+        // Arrival date radio buttons
+        const arrivalDateRadios = document.querySelectorAll(
+          'input[name="arrival-date"]'
+        );
+        arrivalDateRadios.forEach((radio) => {
+          radio.addEventListener("change", () => {
+            loadProducts(1, getActiveFilters());
+          });
+        });
+      }
+
+      // Get active filters function
+      function getActiveFilters() {
+        const filters = {};
+
+        // Get sort value
+        const sortSelect = document.getElementById("sort-select");
+        if (sortSelect) {
+          filters.sort = sortSelect.value;
+        }
+
+        // Get price range
+        const minPrice = document.getElementById("min-price").value;
+        const maxPrice = document.getElementById("max-price").value;
+        if (minPrice) filters.min_price = minPrice;
+        if (maxPrice) filters.max_price = maxPrice;
+
+        // Get categories
+        const selectedCategories = Array.from(
+          document.querySelectorAll('.filter-option input[id^="cat-"]:checked')
+        ).map((checkbox) => checkbox.value);
+        if (selectedCategories.length > 0) {
+          filters.categories = selectedCategories.join(",");
+        }
+
+        // Get brands
+        const selectedBrands = Array.from(
+          document.querySelectorAll(
+            '.filter-option input[id^="brand-"]:checked'
+          )
+        ).map((checkbox) => checkbox.value);
+        if (selectedBrands.length > 0) {
+          filters.brands = selectedBrands.join(",");
+        }
+
+        // Get arrival date filter
+        const selectedArrivalDate = document.querySelector(
+          'input[name="arrival-date"]:checked'
+        );
+        if (selectedArrivalDate) {
+          filters.arrival_days = selectedArrivalDate.value;
+        }
+
+        return filters;
+      }
+    </script>
+  </body>
+</html>

@@ -49,6 +49,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $token = bin2hex(random_bytes(16)); // Generate a secure token
                     $expiry = date('Y-m-d H:i:s', strtotime('+30 days')); // Token expiry date
 
+                    // Check if remember_tokens table exists
+                    $tableExists = $conn->query("SHOW TABLES LIKE 'remember_tokens'")->num_rows > 0;
+
+                    if (!$tableExists) {
+                        // Create remember_tokens table
+                        $sql = "CREATE TABLE remember_tokens (
+                            id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                            user_id INT(11) UNSIGNED NOT NULL,
+                            token VARCHAR(64) NOT NULL,
+                            expiry DATETIME NOT NULL,
+                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                            UNIQUE KEY (token)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+                        $conn->query($sql);
+                    }
+
                     // Store token in database
                     $stmt_token = $conn->prepare("INSERT INTO remember_tokens (user_id, token, expiry) VALUES (?, ?, ?)");
                     $stmt_token->bind_param("iss", $user['id'], $token, $expiry);
@@ -64,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($user['role'] === 'admin') {
                     header("Location: admin/dashboard.php"); // Redirect admin to admin dashboard
                 } else {
-                    header("Location: index.html"); // Redirect user to home page
+                    header("Location: account.php"); // Redirect user to account page
                 }
                 exit();
             } else {

@@ -337,20 +337,6 @@
       <div class="checkout-form">
         <h2>Checkout</h2>
 
-        <!-- Express Checkout Options -->
-        <div class="express-checkout">
-          <p>Express Checkout</p>
-          <button class="express-btn paypal-btn">
-            <i class="fab fa-paypal"></i> PayPal
-          </button>
-          <button class="express-btn apple-pay-btn">
-            <i class="fab fa-apple"></i> Apple Pay
-          </button>
-          <div class="divider">
-            <span>OR</span>
-          </div>
-        </div>
-
         <!-- Shipping Address Section -->
         <div class="checkout-section">
           <h3>Shipping Address</h3>
@@ -395,20 +381,6 @@
               <option value="UK">United Kingdom</option>
               <!-- Add more countries as needed -->
             </select>
-          </div>
-        </div>
-
-        <!-- Additional Information Section -->
-        <div class="checkout-section">
-          <h3>Additional Information</h3>
-          <div class="form-group">
-            <label for="order-notes">Order Notes (Optional)</label>
-            <textarea
-              id="order-notes"
-              class="form-control"
-              rows="4"
-              placeholder="Notes about your order, e.g. special delivery instructions"
-            ></textarea>
           </div>
         </div>
       </div>
@@ -719,5 +691,8 @@
         });
       });
     </script>
+
+    <!-- Cart Functionality -->
+    <script src="cart.js"></script>
   </body>
 </html>

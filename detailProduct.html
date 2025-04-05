@@ -60,6 +60,11 @@
         justify-content: center;
         flex-wrap: wrap;
       }
+      .thumbnail-wrapper {
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
       .thumbnail-images img {
         width: 80px;
         height: 60px;
@@ -72,6 +77,9 @@
       .thumbnail-images img.active,
       .thumbnail-images img:hover {
         border-color: #007bff;
+      }
+      .thumbnail-placeholder {
+        cursor: default;
       }
 
       .product-info-main h1 {
@@ -269,6 +277,82 @@
       .footer {
         /* styles from index.html */
       }
+
+      /* Add to cart notification styles */
+      .add-to-cart-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #fff;
+        border-left: 4px solid #27ae60;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        max-width: 350px;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      .notification-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .notification-content i {
+        color: #27ae60;
+        font-size: 1.2em;
+        margin-bottom: 5px;
+      }
+
+      .notification-content p {
+        margin: 0 0 10px 0;
+      }
+
+      .view-cart-btn {
+        display: inline-block;
+        background-color: #1a237e;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9em;
+        align-self: flex-start;
+      }
+
+      .close-notification {
+        background: none;
+        border: none;
+        font-size: 1.2em;
+        cursor: pointer;
+        color: #666;
+        margin-left: 10px;
+      }
+
+      .fade-out {
+        animation: fadeOut 0.5s ease-out forwards;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -413,35 +497,145 @@
         <div class="product-detail-container">
           <!-- Product Gallery -->
           <div class="product-gallery">
-            <div class="main-image">
+            <div class="main-image" id="main-image-container">
               <img
-                src="/img/81E3tQNSq7L._AC_SL1500_.jpg"
+                src="img/81E3tQNSq7L._AC_SL1500_.jpg"
                 alt="NVIDIA RTX 4070 Main Image"
                 id="main-product-image"
+                onerror="this.onerror=null; this.style.display='none'; document.getElementById('no-image-placeholder').style.display='flex';"
               />
+              <div
+                id="no-image-placeholder"
+                style="
+                  display: none;
+                  width: 100%;
+                  height: 300px;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  background: #f8f9fa;
+                  border-radius: 8px;
+                "
+              >
+                <i
+                  class="fas fa-image"
+                  style="font-size: 48px; margin-bottom: 10px; color: #6c757d"
+                ></i>
+                <span style="font-size: 14px; color: #6c757d"
+                  >No Image Available</span
+                >
+              </div>
             </div>
             <div class="thumbnail-images">
-              <img
-                src="/img/815b3+qj0wL._AC_SL1500_.jpg"
-                alt="RTX 4070 Thumbnail 1"
-                class="active"
-                data-image="/img/815b3+qj0wL._AC_SL1500_.jpg"
-              />
-              <img
-                src="/img/81GyQ70aigL._AC_SL1500_.jpg"
-                alt="RTX 4070 Thumbnail 2"
-                data-image="/img/81GyQ70aigL._AC_SL1500_.jpg"
-              />
-              <img
-                src="/img/81hp6vpk35L._AC_SL1500_.jpg"
-                alt="RTX 4070 Thumbnail 3"
-                data-image="/img/81hp6vpk35L._AC_SL1500_.jpg"
-              />
-              <img
-                src="/img/81JPZdpeH+L._AC_SL1500_.jpg"
-                alt="RTX 4070 Thumbnail 4"
-                data-image="/img/81JPZdpeH+L._AC_SL1500_.jpg"
-              />
+              <div class="thumbnail-wrapper">
+                <img
+                  src="img/815b3+qj0wL._AC_SL1500_.jpg"
+                  alt="RTX 4070 Thumbnail 1"
+                  class="active"
+                  data-image="img/815b3+qj0wL._AC_SL1500_.jpg"
+                  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div
+                  class="thumbnail-placeholder"
+                  style="
+                    display: none;
+                    width: 80px;
+                    height: 60px;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background: #f8f9fa;
+                    border-radius: 4px;
+                    border: 1px solid #ddd;
+                  "
+                >
+                  <i
+                    class="fas fa-image"
+                    style="font-size: 16px; color: #6c757d"
+                  ></i>
+                </div>
+              </div>
+              <div class="thumbnail-wrapper">
+                <img
+                  src="img/81GyQ70aigL._AC_SL1500_.jpg"
+                  alt="RTX 4070 Thumbnail 2"
+                  data-image="img/81GyQ70aigL._AC_SL1500_.jpg"
+                  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div
+                  class="thumbnail-placeholder"
+                  style="
+                    display: none;
+                    width: 80px;
+                    height: 60px;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background: #f8f9fa;
+                    border-radius: 4px;
+                    border: 1px solid #ddd;
+                  "
+                >
+                  <i
+                    class="fas fa-image"
+                    style="font-size: 16px; color: #6c757d"
+                  ></i>
+                </div>
+              </div>
+              <div class="thumbnail-wrapper">
+                <img
+                  src="img/81hp6vpk35L._AC_SL1500_.jpg"
+                  alt="RTX 4070 Thumbnail 3"
+                  data-image="img/81hp6vpk35L._AC_SL1500_.jpg"
+                  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div
+                  class="thumbnail-placeholder"
+                  style="
+                    display: none;
+                    width: 80px;
+                    height: 60px;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background: #f8f9fa;
+                    border-radius: 4px;
+                    border: 1px solid #ddd;
+                  "
+                >
+                  <i
+                    class="fas fa-image"
+                    style="font-size: 16px; color: #6c757d"
+                  ></i>
+                </div>
+              </div>
+              <div class="thumbnail-wrapper">
+                <img
+                  src="img/81JPZdpeH+L._AC_SL1500_.jpg"
+                  alt="RTX 4070 Thumbnail 4"
+                  data-image="img/81JPZdpeH+L._AC_SL1500_.jpg"
+                  onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                />
+                <div
+                  class="thumbnail-placeholder"
+                  style="
+                    display: none;
+                    width: 80px;
+                    height: 60px;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background: #f8f9fa;
+                    border-radius: 4px;
+                    border: 1px solid #ddd;
+                  "
+                >
+                  <i
+                    class="fas fa-image"
+                    style="font-size: 16px; color: #6c757d"
+                  ></i>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -655,182 +849,7 @@
           </div>
         </div>
 
-        <!-- Related Products Section -->
-        <section class="related-products-section">
-          <div class="section-container">
-            <div class="section-header">
-              <h2 class="section-title">Customers Also Bought</h2>
-              <!-- Optional View All link -->
-              <!-- <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a> -->
-            </div>
-            <div class="product-grid">
-              <!-- Example Related Product Card 1 ( Reuse structure from index.html ) -->
-              <div class="product-card">
-                <!-- <div class="product-badge">...</div> -->
-                <div class="product-image">
-                  <img
-                    src="/img/products/amd-ryzen-7800x3d.jpg"
-                    alt="AMD Ryzen 7 7800X3D"
-                  />
-                  <div class="product-actions">
-                    <button class="quick-view" title="Quick View">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="add-to-wishlist" title="Add to Wishlist">
-                      <i class="fas fa-heart"></i>
-                    </button>
-                    <button class="add-to-compare" title="Compare">
-                      <i class="fas fa-exchange-alt"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <div class="product-category">Processors</div>
-                  <h3 class="product-name">
-                    <a href="product-details.html"
-                      >AMD Ryzen 7 7800X3D 8-Core</a
-                    >
-                  </h3>
-                  <div class="product-ratings">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i>
-                    <span class="rating-count">(95)</span>
-                  </div>
-                  <div class="product-price">
-                    <span class="current-price">$429.99</span>
-                  </div>
-                  <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart"></i> Add to Cart
-                  </button>
-                </div>
-              </div>
-              <!-- Example Related Product Card 2 -->
-              <div class="product-card">
-                <div class="product-badge sale-badge">Sale -15%</div>
-                <div class="product-image">
-                  <img
-                    src="/img/products/samsung-990-pro-2tb-ssd.jpg"
-                    alt="Samsung 990 Pro 2TB SSD"
-                  />
-                  <div class="product-actions">
-                    <button class="quick-view" title="Quick View">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="add-to-wishlist" title="Add to Wishlist">
-                      <i class="fas fa-heart"></i>
-                    </button>
-                    <button class="add-to-compare" title="Compare">
-                      <i class="fas fa-exchange-alt"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <div class="product-category">Storage</div>
-                  <h3 class="product-name">
-                    <a href="product-details.html"
-                      >Samsung 990 Pro 2TB NVMe SSD</a
-                    >
-                  </h3>
-                  <div class="product-ratings">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="far fa-star"></i>
-                    <span class="rating-count">(64)</span>
-                  </div>
-                  <div class="product-price">
-                    <span class="current-price">$169.99</span>
-                    <span class="old-price">$199.99</span>
-                  </div>
-                  <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart"></i> Add to Cart
-                  </button>
-                </div>
-              </div>
-              <!-- Add more related product cards -->
-              <div class="product-card">
-                <!-- <div class="product-badge">...</div> -->
-                <div class="product-image">
-                  <img
-                    src="/img/products/corsair-rm850x-psu.jpg"
-                    alt="Corsair RM850x PSU"
-                  />
-                  <div class="product-actions">
-                    <button class="quick-view" title="Quick View">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="add-to-wishlist" title="Add to Wishlist">
-                      <i class="fas fa-heart"></i>
-                    </button>
-                    <button class="add-to-compare" title="Compare">
-                      <i class="fas fa-exchange-alt"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <div class="product-category">Power Supplies</div>
-                  <h3 class="product-name">
-                    <a href="product-details.html"
-                      >Corsair RM850x 850W 80+ Gold</a
-                    >
-                  </h3>
-                  <div class="product-ratings">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star-half-alt"></i>
-                    <span class="rating-count">(150)</span>
-                  </div>
-                  <div class="product-price">
-                    <span class="current-price">$149.99</span>
-                  </div>
-                  <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart"></i> Add to Cart
-                  </button>
-                </div>
-              </div>
-              <div class="product-card">
-                <!-- <div class="product-badge">...</div> -->
-                <div class="product-image">
-                  <img
-                    src="/img/products/asus-rog-strix-b650-a.jpg"
-                    alt="ASUS ROG Strix B650-A"
-                  />
-                  <div class="product-actions">
-                    <button class="quick-view" title="Quick View">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="add-to-wishlist" title="Add to Wishlist">
-                      <i class="fas fa-heart"></i>
-                    </button>
-                    <button class="add-to-compare" title="Compare">
-                      <i class="fas fa-exchange-alt"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <div class="product-category">Motherboards</div>
-                  <h3 class="product-name">
-                    <a href="product-details.html"
-                      >ASUS ROG Strix B650-A Gaming WiFi</a
-                    >
-                  </h3>
-                  <div class="product-ratings">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="far fa-star"></i>
-                    <span class="rating-count">(55)</span>
-                  </div>
-                  <div class="product-price">
-                    <span class="current-price">$259.99</span>
-                  </div>
-                  <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart"></i> Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <!-- Related Products Section removed -->
       </div>
       <!-- /.container -->
     </main>
@@ -944,74 +963,358 @@
     <!-- Add specific JS for product page interactions (gallery, tabs) -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Image Gallery Interaction
-        const mainImage = document.getElementById("main-product-image");
-        const thumbnails = document.querySelectorAll(".thumbnail-images img");
+        // Get product ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get("id");
 
-        thumbnails.forEach((thumb) => {
-          thumb.addEventListener("click", function () {
-            // Update main image src using the actual thumbnail src or data-image
-            mainImage.src = this.getAttribute("data-image") || this.src;
-            // Update active state
-            thumbnails.forEach((t) => t.classList.remove("active"));
-            this.classList.add("active");
-          });
-        });
+        console.log("URL parameters:", Object.fromEntries(urlParams.entries()));
+        console.log("Product ID from URL:", productId);
 
-        // Tab Functionality
-        const tabButtons = document.querySelectorAll(".tab-btn");
-        const tabContents = document.querySelectorAll(".tab-content");
+        if (!productId) {
+          console.error("No product ID provided in URL");
+          alert(
+            "Product ID is required. Please select a product from the catalog."
+          );
+          window.location.href = "Desktop.html";
+          return;
+        }
 
-        tabButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            const tabId = this.dataset.tab;
+        // Log the product ID and URL for debugging
+        console.log("Current URL:", window.location.href);
+        console.log("Loading product with ID:", productId);
 
-            // Update button active state
-            tabButtons.forEach((btn) => btn.classList.remove("active"));
-            this.classList.add("active");
+        // Fetch product details
+        const url = `get_product_details.php?id=${encodeURIComponent(
+          productId
+        )}`;
+        console.log("Fetching product details from:", url);
 
-            // Update content active state
-            tabContents.forEach((content) => {
-              if (content.id === tabId) {
-                content.classList.add("active");
-              } else {
-                content.classList.remove("active");
+        fetch(url)
+          .then((response) => {
+            console.log("Response status:", response.status);
+            console.log(
+              "Response headers:",
+              Object.fromEntries(response.headers.entries())
+            );
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text().then((text) => {
+              console.log("Raw response text:", text);
+              try {
+                const data = JSON.parse(text);
+                console.log("Parsed response data:", data);
+                return data;
+              } catch (e) {
+                console.error("JSON parse error:", e);
+                console.error("Invalid JSON response:", text);
+                throw new Error(
+                  "Invalid response from server. Please check the server logs."
+                );
               }
             });
-          });
-        });
+          })
+          .then((data) => {
+            console.log("Processing response data:", data);
 
-        // Add functionality for shopping actions
-        document
-          .querySelector(".add-to-cart-btn")
-          .addEventListener("click", function () {
-            // Add product to cart logic
-            alert("Product added to cart!");
-            // You would typically use AJAX here to add the item to the cart
-          });
+            if (!data.success) {
+              console.error("Server reported error:", data.message);
+              throw new Error(data.message || "Failed to load product details");
+            }
 
-        document
-          .querySelector(".add-to-wishlist")
-          .addEventListener("click", function () {
-            // Add to wishlist logic
-            this.classList.toggle("active");
-            alert("Product added to wishlist!");
-          });
+            if (!data.product) {
+              console.error("No product data in response");
+              throw new Error("Product data is missing from the response");
+            }
 
-        document
-          .querySelector(".add-to-compare")
-          .addEventListener("click", function () {
-            // Add to compare logic
-            this.classList.toggle("active");
-            alert("Product added to comparison!");
-          });
+            const product = data.product;
+            console.log("Product data to display:", product);
 
-        // Handle quantity input validation
-        const quantityInput = document.getElementById("quantity");
-        quantityInput.addEventListener("change", function () {
-          if (this.value < 1) this.value = 1;
-          if (this.value > 10) this.value = 10;
-        });
+            // Validate required fields
+            const requiredFields = [
+              "name",
+              "brand",
+              "category",
+              "regular_price",
+              "description",
+            ];
+            const missingFields = requiredFields.filter(
+              (field) => !product[field]
+            );
+
+            if (missingFields.length > 0) {
+              console.error("Missing required fields:", missingFields);
+              throw new Error(
+                `Product data is incomplete. Missing: ${missingFields.join(
+                  ", "
+                )}`
+              );
+            }
+
+            // Update page title
+            document.title = `${product.name} - TechHub`;
+
+            // Update breadcrumbs
+            const breadcrumbs = document.querySelector(".breadcrumbs");
+            breadcrumbs.innerHTML = `
+              <a href="index.html">Home</a> <span>›</span>
+              <a href="computers.html">Computers</a> <span>›</span>
+              <a href="desktops.html">Desktop PCs</a> <span>›</span>
+              ${product.name}
+            `;
+
+            // Update product images
+            const mainImage = document.getElementById("main-product-image");
+            const thumbnailContainer =
+              document.querySelector(".thumbnail-images");
+
+            if (product.images && product.images.length > 0) {
+              mainImage.src = product.images[0];
+              mainImage.alt = product.name;
+
+              thumbnailContainer.innerHTML = product.images
+                .map(
+                  (img, index) => `
+                <img src="${img}" alt="${product.name} Thumbnail ${index + 1}" 
+                     class="${index === 0 ? "active" : ""}" 
+                     data-image="${img}">
+              `
+                )
+                .join("");
+            } else {
+              mainImage.src = "img/placeholder.jpg";
+              mainImage.alt = "No image available";
+              thumbnailContainer.innerHTML = "";
+            }
+
+            // Update product info
+            document.querySelector(".product-info-main h1").textContent =
+              product.name;
+            document.querySelector(".product-meta").innerHTML = `
+              Brand: <a href="brands/${product.brand.toLowerCase()}.html">${
+              product.brand
+            }</a>
+              <span>|</span> Category: <a href="${product.category.toLowerCase()}.html">${
+              product.category
+            }</a>
+            `;
+
+            // Update price
+            const priceContainer = document.querySelector(".product-price");
+            priceContainer.innerHTML = `
+              <span class="current-price">$${product.regular_price}</span>
+            `;
+
+            // Update availability
+            const availabilityContainer = document.querySelector(
+              ".product-availability"
+            );
+            if (product.quantity > 0) {
+              availabilityContainer.innerHTML = `
+                <span class="availability-in-stock">
+                  <i class="fas fa-check-circle"></i> In Stock
+                </span>
+              `;
+            } else {
+              availabilityContainer.innerHTML = `
+                <span class="availability-out-stock">
+                  <i class="fas fa-times-circle"></i> Out of Stock
+                </span>
+              `;
+            }
+
+            // Update description
+            document.querySelector(".short-description").textContent =
+              product.description;
+
+            // Update specifications
+            const specTable = document.querySelector(".spec-table tbody");
+            if (product.specifications) {
+              try {
+                const specs = JSON.parse(product.specifications);
+                specTable.innerHTML = Object.entries(specs)
+                  .map(
+                    ([key, value]) => `
+                    <tr>
+                      <th>${key}</th>
+                      <td>${value}</td>
+                    </tr>
+                  `
+                  )
+                  .join("");
+              } catch (e) {
+                console.error("Error parsing specifications:", e);
+                specTable.innerHTML =
+                  '<tr><td colspan="2">No specifications available</td></tr>';
+              }
+            } else {
+              specTable.innerHTML =
+                '<tr><td colspan="2">No specifications available</td></tr>';
+            }
+
+            // Update features
+            const featureHighlights = document.querySelector(
+              ".feature-highlights"
+            );
+            if (product.features && product.features.length > 0) {
+              featureHighlights.innerHTML = product.features
+                .map(
+                  (feature) => `
+                  <li><i class="fas fa-check"></i> ${feature}</li>
+                `
+                )
+                .join("");
+            } else {
+              featureHighlights.innerHTML =
+                "<li>No special features listed</li>";
+            }
+
+            // Add to cart button handler
+            document
+              .querySelector(".add-to-cart-btn")
+              .addEventListener("click", function (e) {
+                e.preventDefault();
+                if (product.quantity > 0) {
+                  // Get quantity from input
+                  const quantity =
+                    parseInt(document.getElementById("quantity").value) || 1;
+
+                  // Prepare product data
+                  const productData = {
+                    id: product.id,
+                    name: product.name,
+                    price: parseFloat(product.regular_price.replace("$", "")),
+                    image: product.images ? product.images[0] : "",
+                    specs: product.specifications || "",
+                    quantity: quantity,
+                  };
+
+                  // Add to cart
+                  addToCart(productData);
+                } else {
+                  alert("This product is currently out of stock.");
+                }
+              });
+
+            // Add to cart function
+            function addToCart(product) {
+              // Validate product data
+              if (!product.id || !product.name || isNaN(product.price)) {
+                console.error("Invalid product data:", product);
+                return;
+              }
+
+              // Prepare data for API call
+              const formData = new FormData();
+              formData.append("product_id", product.id);
+              formData.append("product_name", product.name);
+              formData.append("price", product.price);
+              formData.append("image_url", product.image || "");
+              formData.append("specs", product.specs || "");
+              formData.append("quantity", product.quantity || 1);
+
+              // Send data to server
+              fetch("add_to_cart.php", {
+                method: "POST",
+                body: formData,
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.success) {
+                    // Update cart count in the header
+                    const cartCountElements =
+                      document.querySelectorAll(".cart-count");
+                    cartCountElements.forEach((element) => {
+                      element.textContent = data.cart_count;
+                      element.style.display =
+                        data.cart_count > 0 ? "inline-block" : "none";
+                    });
+
+                    // Show success notification
+                    showAddToCartConfirmation(product.name);
+                  } else {
+                    console.error("Failed to add item to cart:", data.message);
+                    alert("Failed to add item to cart. Please try again.");
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error adding to cart:", error);
+                  alert("An error occurred while adding the item to cart.");
+                });
+            }
+
+            // Show add to cart confirmation
+            function showAddToCartConfirmation(productName) {
+              // Create notification element
+              const notification = document.createElement("div");
+              notification.className = "add-to-cart-notification";
+              notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-check-circle"></i>
+                        <p>${productName} has been added to your cart</p>
+                        <a href="cart.html" class="view-cart-btn">View Cart</a>
+                    </div>
+                    <button class="close-notification">&times;</button>
+                `;
+
+              // Add to document
+              document.body.appendChild(notification);
+
+              // Remove after 5 seconds
+              setTimeout(() => {
+                notification.classList.add("fade-out");
+                setTimeout(() => {
+                  document.body.removeChild(notification);
+                }, 500);
+              }, 5000);
+
+              // Close button functionality
+              const closeBtn = notification.querySelector(
+                ".close-notification"
+              );
+              closeBtn.addEventListener("click", () => {
+                document.body.removeChild(notification);
+              });
+            }
+
+            // Image gallery interaction
+            const thumbnails = document.querySelectorAll(
+              ".thumbnail-images img"
+            );
+            thumbnails.forEach((thumb) => {
+              thumb.addEventListener("click", function () {
+                if (this.style.display === "none") return; // Skip if image is not visible (error occurred)
+
+                const imagePath = this.getAttribute("data-image");
+                mainImage.style.display = ""; // Reset display property
+                document.getElementById("no-image-placeholder").style.display =
+                  "none"; // Hide placeholder
+                mainImage.src = imagePath;
+
+                mainImage.onerror = function () {
+                  this.onerror = null;
+                  this.style.display = "none";
+                  document.getElementById(
+                    "no-image-placeholder"
+                  ).style.display = "flex";
+                };
+
+                thumbnails.forEach((t) => t.classList.remove("active"));
+                this.classList.add("active");
+              });
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading product:", error);
+            const errorMessage =
+              error.message ||
+              "Error loading product details. Please try again later.";
+            alert(
+              `Error: ${errorMessage}\nPlease check the console for more details.`
+            );
+            window.location.href = "index.html";
+          });
       });
     </script>
   </body>

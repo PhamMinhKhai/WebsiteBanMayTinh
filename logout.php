@@ -21,10 +21,23 @@ if (isset($_COOKIE['remember_token'])) {
     setcookie('remember_token', '', time() - 3600, '/');
 }
 
+// Delete the token from the database if it exists
+if (isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
+    require_once 'db_connect.php';
+    $user_id = $_SESSION['user_id'];
+    $token = $_COOKIE['remember_token'];
+
+    $stmt = $conn->prepare("DELETE FROM remember_tokens WHERE user_id = ? AND token = ?");
+    $stmt->bind_param("is", $user_id, $token);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+}
+
 // Destroy the session
 session_destroy();
 
-// Redirect to login page
-header("Location: loginRegister.html?logout=success");
+// Redirect to home page
+header("Location: index.php?logout=success");
 exit();
 ?> 
